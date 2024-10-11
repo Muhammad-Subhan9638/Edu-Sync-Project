@@ -81,7 +81,7 @@ const Routing = () => {
 
 
 
-          {/* Haider Routes */}
+          {/*Talib Routes */}
           <Route path="/kanbanboard" element={<Kanbanboard />} />
           <Route path="/task_maker" element={<TaskMaker />} />
           <Route path="/line-chart" element={<AdminProtected Page={LineChart} />} />
