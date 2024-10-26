@@ -27,7 +27,7 @@ const VideoCallHome = () => {
 		};
 	}, [handleJoinedRoom, socket]);
 
-	// socket.emit("join-room", { roomId: "1", emailId: "haiderali@gmail.com" });
+	// socket.emit("join-room", { roomId: "1", emailId: "sch9638@gmail.com" });
 	return (
 		<div className='homepage-container'>
 			<div className='input-container'>
