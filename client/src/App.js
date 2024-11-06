@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from "react";
-import './App.css';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
@@ -19,12 +20,12 @@ import { Dashboard } from "./AdminDashboard/Dashboard";
 import { AdminProfile } from "./AdminDashboard/components/AdminProfile";
 import StudentReg from "./AdminDashboard/components/StudentReg";
 import TeacherReg from "./AdminDashboard/components/TeacherReg";
-import Library from './AdminDashboard/components/Library';
+import Library from "./AdminDashboard/components/Library";
 import { reducerFun, initialState } from "../src/Reducer/UseReducer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LibraryPage from "./components/Library/LibraryPage";
-import Books from './components/Library/Books';
-import ChartsTotalUser from './AdminDashboard/ChartsTotalUser';
+import Books from "./components/Library/Books";
+import ChartsTotalUser from "./AdminDashboard/ChartsTotalUser";
 import AdminRegister from "./AdminDashboard/AdminRegister";
 import SingleTeacherProfile from "./components/SingleTeacherProfile";
 import { Kanbanboard } from "./modules/Kanbanboard/Kanbanboard";
@@ -53,50 +54,105 @@ const Routing = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/teacherregistration" element={<TeacherRegistration />} />
-          <Route path="/studentregistration" element={<StudentRegistration />} />
+          <Route
+            path="/teacherregistration"
+            element={<TeacherRegistration />}
+          />
+          <Route
+            path="/studentregistration"
+            element={<StudentRegistration />}
+          />
           <Route path="/teacherprofile" element={<TeacherProfile />} />
           <Route path="/Login" element={<Login />} />
 
           <Route path="/myprofile" element={<Protected Page={MyProfile} />} />
-          <Route path="/teacherslist" element={<Protected Page={TeachersList} />} />
-          <Route path="/teacherslist/:_id" element={<Protected Page={SingleTeacherProfile} />} />
+          <Route
+            path="/teacherslist"
+            element={<Protected Page={TeachersList} />}
+          />
+          <Route
+            path="/teacherslist/:_id"
+            element={<Protected Page={SingleTeacherProfile} />}
+          />
           <Route path="/chat" element={<Protected Page={Chat} />} />
           {/* Library Routes */}
           <Route path="/library" element={<Protected Page={LibraryPage} />} />
-          <Route path="/library/:ClassName" element={<Protected Page={Books} />} />
+          <Route
+            path="/library/:ClassName"
+            element={<Protected Page={Books} />}
+          />
 
           {/* Admin Routers */}
-          <Route path="/dashboard" element={<AdminProtected Page={Dashboard} />} />
-          <Route path="/dashboard/studentslist" element={<AdminProtected Page={StudentsList} />} />
-          <Route path="/dashboard/teacherslist" element={<AdminProtected Page={Teachers} />} />
-          <Route path="/dashboard/profile" element={<AdminProtected Page={AdminProfile} />} />
-          <Route path="/dashboard/student-register" element={<AdminProtected Page={StudentReg} />} />
-          <Route path="/dashboard/teacher-register" element={<AdminProtected Page={TeacherReg} />} />
-          <Route path="/dashboard/library" element={<AdminProtected Page={Library} />} />
-          <Route path="/dashboard/total-user" element={<AdminProtected Page={ChartsTotalUser} />} />
-          <Route path="/dashboard/admin-register" element={<AdminProtected Page={AdminRegister} />} />
-          <Route path="/admin-login" element={<AdminProtected Page={AdminLogin} />} />
-
-
-
+          <Route
+            path="/dashboard"
+            element={<AdminProtected Page={Dashboard} />}
+          />
+          <Route
+            path="/dashboard/studentslist"
+            element={<AdminProtected Page={StudentsList} />}
+          />
+          <Route
+            path="/dashboard/teacherslist"
+            element={<AdminProtected Page={Teachers} />}
+          />
+          <Route
+            path="/dashboard/profile"
+            element={<AdminProtected Page={AdminProfile} />}
+          />
+          <Route
+            path="/dashboard/student-register"
+            element={<AdminProtected Page={StudentReg} />}
+          />
+          <Route
+            path="/dashboard/teacher-register"
+            element={<AdminProtected Page={TeacherReg} />}
+          />
+          <Route
+            path="/dashboard/library"
+            element={<AdminProtected Page={Library} />}
+          />
+          <Route
+            path="/dashboard/total-user"
+            element={<AdminProtected Page={ChartsTotalUser} />}
+          />
+          <Route
+            path="/dashboard/admin-register"
+            element={<AdminProtected Page={AdminRegister} />}
+          />
+          <Route
+            path="/admin-login"
+            element={<AdminProtected Page={AdminLogin} />}
+          />
 
           {/*Talib Routes */}
           <Route path="/kanbanboard" element={<Kanbanboard />} />
           <Route path="/task_maker" element={<TaskMaker />} />
-          <Route path="/line-chart" element={<AdminProtected Page={LineChart} />} />
-          <Route path="/bar-chart" element={<AdminProtected Page={BarChartApp} />} />
-          <Route path="/stackedbar-chart" element={<AdminProtected Page={StackedBarChart} />} />
-          <Route path="/pie-chart" element={<AdminProtected Page={PieChartApp} />} />
-          <Route path="/area-chart" element={<AdminProtected Page={AreaChartApp} />} />
-          <Route path="/stackedarea-chart" element={<AdminProtected Page={StackedAreaChart} />} />
-          <Route path='/home' element={<VideoCallHome />} />
-          <Route path='/room/:id' element={<RoomPage />} />
-
-
-
-
-
+          <Route
+            path="/line-chart"
+            element={<AdminProtected Page={LineChart} />}
+          />
+          <Route
+            path="/bar-chart"
+            element={<AdminProtected Page={BarChartApp} />}
+          />
+          <Route
+            path="/stackedbar-chart"
+            element={<AdminProtected Page={StackedBarChart} />}
+          />
+          <Route
+            path="/pie-chart"
+            element={<AdminProtected Page={PieChartApp} />}
+          />
+          <Route
+            path="/area-chart"
+            element={<AdminProtected Page={AreaChartApp} />}
+          />
+          <Route
+            path="/stackedarea-chart"
+            element={<AdminProtected Page={StackedAreaChart} />}
+          />
+          <Route path="/home" element={<VideoCallHome />} />
+          <Route path="/room/:id" element={<RoomPage />} />
         </Routes>
       </PeerProvider>
     </SocketProvider>
@@ -104,7 +160,6 @@ const Routing = () => {
 };
 
 const App = () => {
-
   const [state, dispatch] = useReducer(reducerFun, initialState);
   // const [dashboardDisable, setDashboardDisable] = useState(false);
   // const [currentURL, setCurrentURL] = useState(window.location.href);
