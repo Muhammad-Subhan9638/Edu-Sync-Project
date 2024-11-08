@@ -126,16 +126,6 @@ label {
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* color: white; */
-  height: 80vh;
-  flex-direction: column;
-  background: linear-gradient(90deg, #16717a 0%, #ffffff 50%);
-}
-
 .herologin {
   display: flex;
   align-items: center;
@@ -586,13 +576,6 @@ div#HeroID {
   padding: 50px;
 }
 
-.teacherLink {
-  height: 30vh;
-}
-
-.HBanners {
-  height: 200px;
-}
 footer {
   background-color: #f8f9fa;
 }
@@ -605,22 +588,7 @@ footer .text-primary {
   color: #0f99a7;
 }
 
-.BHbanner {
-  background-image: url(./images/3.png);
-  padding-top: 50px;
-  padding-bottom: 50px;
-  padding-right: 30px !important;
-  padding-left: 30px !important;
-}
 
-.global {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url(./images/faces.jpg);
-  background-size: contain;
-  background-size: auto;
-  background-repeat: repeat;
-  background-attachment: fixed;
-}
 
 .AboutBanner {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
