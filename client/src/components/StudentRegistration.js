@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Loginnavbar } from "./Loginnavbar";
-import "./StudentRegister.css"; // Ensure this file has matching styles
 import { Loginfooter } from "./Loginfooter";
+import "./StudentRegister.css";
 
 const StudentRegistration = () => {
   const navigate = useNavigate();
@@ -19,26 +19,64 @@ const StudentRegistration = () => {
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setStudentData({ ...studentData, [name]: value });
+
+    if (name === "Password") {
+      validatePassword(value);
+    }
+  };
+
+  const validatePassword = (password) => {
+    const errors = [];
+    if (password.length < 8) {
+      errors.push("Password must be at least 8 characters.");
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push("Password must contain at least one uppercase letter.");
+    }
+    if (!/[a-z]/.test(password)) {
+      errors.push("Password must contain at least one lowercase letter.");
+    }
+    if (!/[0-9]/.test(password)) {
+      errors.push("Password must contain at least one number.");
+    }
+    if (!/[!@#$%^&*]/.test(password)) {
+      errors.push("Password must contain at least one special character.");
+    }
+    setPasswordErrors(errors);
+  };
+
+  const validateForm = () => {
+    const { Password, cPassword } = studentData;
+    if (passwordErrors.length > 0) {
+      alert("Please meet all password requirements.");
+      return false;
+    }
+    if (Password !== cPassword) {
+      alert("Passwords do not match.");
+      return false;
+    }
+    return true;
   };
 
   const addStudent = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const response = await Axios.post(
         "http://localhost:3001/add-student",
         studentData
       );
       if (response.status === 200) {
-        window.alert(
-          "Congratulations! You are successfully added as a new student!"
-        );
+        alert("Congratulations! You are successfully added as a new student!");
         navigate("/login");
       } else {
-        window.alert(response.data);
+        alert(response.data);
       }
     } catch (error) {
       console.log(error);
@@ -129,6 +167,15 @@ const StudentRegistration = () => {
                   >
                     {passwordVisible ? "Hide" : "Show"}
                   </span>
+                </div>
+                <div className="password-requirements">
+                  {passwordErrors.length > 0 && (
+                    <ul>
+                      {passwordErrors.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
                 <div className="field-group password-field">
                   <input

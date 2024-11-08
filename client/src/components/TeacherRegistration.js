@@ -26,10 +26,29 @@ const TeacherRegistration = () => {
   const [completedFields, setCompletedFields] = useState(0);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [cPasswordVisible, setCPasswordVisible] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTeacherData({ ...teacherData, [name]: value });
+
+    if (name === "Password") {
+      validatePassword(value);
+    }
+  };
+
+  const validatePassword = (password) => {
+    const errors = [];
+    if (password.length < 8)
+      errors.push("Password must be at least 8 characters.");
+    if (!/[A-Z]/.test(password))
+      errors.push("Password must contain an uppercase letter.");
+    if (!/[a-z]/.test(password))
+      errors.push("Password must contain a lowercase letter.");
+    if (!/[0-9]/.test(password)) errors.push("Password must contain a number.");
+    if (!/[!@#$%^&*]/.test(password))
+      errors.push("Password must contain a special character.");
+    setPasswordErrors(errors);
   };
 
   const countCompletedFields = () => {
@@ -43,6 +62,19 @@ const TeacherRegistration = () => {
     countCompletedFields();
   }, [teacherData]);
 
+  const validateForm = () => {
+    const { Password, cPassword } = teacherData;
+    if (passwordErrors.length > 0) {
+      alert("Please meet all password requirements.");
+      return false;
+    }
+    if (Password !== cPassword) {
+      alert("Passwords do not match.");
+      return false;
+    }
+    return true;
+  };
+
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -53,6 +85,8 @@ const TeacherRegistration = () => {
 
   const addTeacher = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     teacherData.TeachingSubject = teacherData.TeachingSubject.toUpperCase();
 
     try {
@@ -92,7 +126,7 @@ const TeacherRegistration = () => {
                         (completedFields / Object.keys(teacherData).length) *
                         100
                       }%`,
-                      backgroundColor: "#198f99", // Make sure the fill color is applied here
+                      backgroundColor: "#198f99",
                     }}
                   />
                 </div>
@@ -218,7 +252,7 @@ const TeacherRegistration = () => {
                     />
                   </div>
 
-                  {/* Password Fields with Toggle Buttons inside the field */}
+                  {/* Password Fields with Toggle and Validation */}
                   <div className="field-group password-field">
                     <input
                       type={passwordVisible ? "text" : "password"}
@@ -235,6 +269,15 @@ const TeacherRegistration = () => {
                     >
                       {passwordVisible ? "Hide" : "Show"}
                     </button>
+                  </div>
+                  <div className="password-requirements">
+                    {passwordErrors.length > 0 && (
+                      <ul>
+                        {passwordErrors.map((error, index) => (
+                          <li key={index}>{error}</li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                   <div className="field-group password-field">
                     <input
