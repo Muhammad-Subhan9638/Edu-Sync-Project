@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import Axios from "axios";
 import { BrowserCookie } from "../helpers/BrowserCookies";
 import { useCookies } from "react-cookie";
@@ -11,22 +11,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const MyProfile = () => {
-  useEffect(() => {
-    callMyprofile();
-  }, []);
-
-  const alert = (text) => toast(text);
   const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const [trigger, setTrigger] = useState();
+  const [, , removeCookie] = useCookies(["token"]);
+  const [trigger, setTrigger] = useState(false);
   const [updatedName, setUpdatedName] = useState("");
   const [Image, setImage] = useState(null);
   const [updatedPhone, setUpdatedPhone] = useState("");
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [updatedStudentClass, setUpdatedStudentClass] = useState("");
   const [updatedAge, setUpdatedAge] = useState("");
+
+  const alert = (text) => toast(text);
 
   const UpdatedData = {
     _id: userData._id,
@@ -38,7 +35,7 @@ const MyProfile = () => {
     Age: updatedAge,
   };
 
-  const callMyprofile = function () {
+  const callMyprofile = useCallback(() => {
     try {
       const UserToken = BrowserCookie();
       const token = UserToken.UserToken;
@@ -50,7 +47,7 @@ const MyProfile = () => {
         },
       })
         .then((response) => {
-          let Data = response.data;
+          const Data = response.data;
           setUserData(Data);
           if (Data.TeachingExperience) {
             navigate("/teacherprofile");
@@ -64,13 +61,16 @@ const MyProfile = () => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [navigate]);
+
+  useEffect(() => {
+    callMyprofile();
+  }, [callMyprofile]);
 
   const editHandler = () => setTrigger(true);
 
   async function handleRemoveCookie() {
-    var cookies = document.cookie;
-    await removeCookie(cookies);
+    removeCookie("token");
     navigate("/login");
     localStorage.removeItem("role");
     dispatch({ type: state, payload: false });
@@ -273,14 +273,30 @@ const MyProfile = () => {
                       }
                     />
                   </div>
+                </div>
+                <div className="mx-2">
                   <div className="form-group mt-3">
                     <label>Phone</label>
                     <input
-                      type="number"
+                      type="text"
                       className="form-control mt-1"
-                      placeholder="Phone Number"
+                      placeholder="e.g 0196xxxxxxx"
                       value={updatedPhone}
                       onChange={(event) => setUpdatedPhone(event.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="d-flex justify-content-between">
+                <div className="mx-2">
+                  <div className="form-group mt-3">
+                    <label>Age</label>
+                    <input
+                      type="number"
+                      className="form-control mt-1"
+                      placeholder="e.g 21"
+                      value={updatedAge}
+                      onChange={(event) => setUpdatedAge(event.target.value)}
                     />
                   </div>
                 </div>
@@ -288,30 +304,24 @@ const MyProfile = () => {
                   <div className="form-group mt-3">
                     <label>Class</label>
                     <input
-                      type="text"
+                      type="number"
                       className="form-control mt-1"
-                      placeholder="Class"
+                      placeholder="e.g 9"
                       value={updatedStudentClass}
                       onChange={(event) =>
                         setUpdatedStudentClass(event.target.value)
                       }
                     />
                   </div>
-                  <div className="form-group mt-3">
-                    <label>Age</label>
-                    <input
-                      type="text"
-                      className="form-control mt-1"
-                      placeholder="Age"
-                      value={updatedAge}
-                      onChange={(event) => setUpdatedAge(event.target.value)}
-                    />
-                  </div>
                 </div>
               </div>
-              <div className="d-grid gap-2 mt-3 mx-2">
-                <button type="submit" className="formbtn" onClick={UpdateData}>
-                  Update
+              <div className="d-grid gap-2 mt-3">
+                <button
+                  className="btn btn-outline-primary"
+                  type="submit"
+                  onClick={UpdateData}
+                >
+                  Submit
                 </button>
               </div>
             </div>
