@@ -1,223 +1,270 @@
-import React from 'react';
-import { useState } from 'react';
-import Axios from 'axios';
-import { useNavigate } from 'react-router-dom'
-import { Loginnavbar } from './Loginnavbar'
-// import BG1 from '../images/2.png'
-const TeacherRegistration = () => {
-    const navigate = useNavigate()
-    const [teacherData, setTeacherData] = useState({
-        Name: "",
-        Email: "",
-        Phone: "",
-        Age: "",
-        Gender: "",
-        Address: "",
-        City: "",
-        Education: "",
-        TeachingExperience: "",
-        OnlineTeachingExperience: "",
-        TeachingSubject: "",
-        Description: "",
-        Password: "",
-        cPassword: ""
-    })
-    const handleChange = (e) => {
-        console.log(e.target.value)
-        const { name, value } = e.target
-        setTeacherData({ ...teacherData, [name]: value })
-    }
-    const addTeacher = async (e) => {
-        teacherData.TeachingSubject = teacherData.TeachingSubject.toUpperCase()
-        e.preventDefault();
-        Axios.post("http://localhost:3001/add-teacher", teacherData).then((response) => {
-            if (response.status === 200) {
-                window.alert("Congratulations! You are successfully added as a new teacher!");
-                navigate('/login')
-            } else {
-                window.alert(response.data);
-            }
-        }).catch((error) => {
-            console.log(error)
-        })
-    }
-    return (
-        <>
-            {/* <Navbar /> */}
-            <div className="Rcontainer">
-                <Loginnavbar />
-                <div className="Auth-form-container py-4">
-                    <form className="Auth-form1">
-                        <div className="Auth-form-content">
-                            <h3 className="Auth-form-title">Teacher Sign Up</h3>
-                            <div className="d-flex justify-content-between">
-                                <div className="mx-2">
-                                    <div className="login__field">
-                                        <i className="login__icon fa-regular fa-user"></i>
-                                        <input
-                                            type="text"
-                                            className="login__input"
-                                            placeholder="e.g Jane Doe"
-                                            name='Name'
-                                            value={teacherData.Name}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-regular fa-envelope"></i>
-                                        <input
-                                            type="email"
-                                            className="login__input"
-                                            placeholder="Email"
-                                            name="Email"
-                                            value={teacherData.Email}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-phone"></i>
-                                        <input
-                                            type="number"
-                                            className="login__input"
-                                            placeholder="Phone"
-                                            name="Phone"
-                                            value={teacherData.Phone}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-person-half-dress"></i>
-                                        <input
-                                            type="text"
-                                            className="login__input"
-                                            placeholder="Gender"
-                                            name="Gender"
-                                            value={teacherData.Gender}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-person-cane"></i>
-                                        <input
-                                            type="text"
-                                            className="login__input"
-                                            placeholder="Age"
-                                            name="Age"
-                                            value={teacherData.Age}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-map-pin"></i>
-                                        <input
-                                            type="text"
-                                            className="login__input"
-                                            placeholder="Address"
-                                            name="Address"
-                                            value={teacherData.Address}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="mx-2">
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-map-pin"></i>
-                                        <input
-                                            type="text"
-                                            className="login__input"
-                                            placeholder="City"
-                                            name="City"
-                                            value={teacherData.City}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-landmark"></i>
-                                        <input
-                                            type="text"
-                                            className="login__input"
-                                            placeholder="Education"
-                                            name="Education"
-                                            value={teacherData.Education}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-chalkboard-user"></i>
-                                        <input
-                                            type="text"
-                                            className="login__input"
-                                            placeholder="Online Teaching Experience"
-                                            name="OnlineTeachingExperience"
-                                            value={teacherData.OnlineTeachingExperience}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-chalkboard-user"></i>
-                                        <input
-                                            type="text"
-                                            className="login__input"
-                                            placeholder="Physical Teaching Experience"
-                                            name="TeachingExperience"
-                                            value={teacherData.TeachingExperience}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-book"></i>
-                                        <input className='login__input' type="textarea" placeholder='Teaching Suject'
-                                            name="TeachingSubject" 
-                                            rows="5"
-                                            value={teacherData.TeachingSubject}
-                                            onChange={(event) => handleChange(event)}
-                                        />
-                                    </div>
-                                    <div className="login__field">
-                                        <i className="login__icon fa-solid fa-biohazard"></i>
-                                        <input className='login__input' type="text" placeholder='Bio' 
-                                        name="Description" 
-                                        value={teacherData.Description}
-                                            onChange={(event) => handleChange(event)} />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mx-2">
-                                <div className="login__field">
-                                    <i className="login__icon fa-solid fa-lock"></i>
-                                    <input
-                                        type="Password"
-                                        className="login__input"
-                                        placeholder="Password"
-                                        name="Password"
-                                        value={teacherData.Password}
-                                        onChange={(event) => handleChange(event)}
-                                    />
-                                </div>
-                                <div className="login__field">
-                                    <i className="login__icon fa-solid fa-lock"></i>
-                                    <input
-                                        type="password"
-                                        className="login__input"
-                                        placeholder="Confirm Password"
-                                        name="cPassword"
-                                        value={teacherData.cPassword}
-                                        onChange={(event) => handleChange(event)}
-                                    />
-                                </div>
-                            </div>
-                            <div className="d-grid gap-2 mt-3 mx-2">
-                                <button type="submit" className="formbtn" onClick={addTeacher}>
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            {/* <Footer /> */}
-        </>
-    )
-}
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Loginnavbar } from "./Loginnavbar";
+import "./TeacherRegistration.css";
 
-export default TeacherRegistration
+const TeacherRegistration = () => {
+  const navigate = useNavigate();
+  const [teacherData, setTeacherData] = useState({
+    Name: "",
+    Email: "",
+    Phone: "",
+    Age: "",
+    Gender: "",
+    Address: "",
+    City: "",
+    Education: "",
+    TeachingExperience: "",
+    OnlineTeachingExperience: "",
+    TeachingSubject: "",
+    Description: "",
+    Password: "",
+    cPassword: "",
+  });
+
+  const [completedFields, setCompletedFields] = useState(0);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [cPasswordVisible, setCPasswordVisible] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setTeacherData({ ...teacherData, [name]: value });
+  };
+
+  const countCompletedFields = () => {
+    const filledFields = Object.values(teacherData).filter(
+      (field) => field.trim() !== ""
+    ).length;
+    setCompletedFields(filledFields);
+  };
+
+  useEffect(() => {
+    countCompletedFields();
+  }, [teacherData]);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const toggleCPasswordVisibility = () => {
+    setCPasswordVisible(!cPasswordVisible);
+  };
+
+  const addTeacher = async (e) => {
+    e.preventDefault();
+    teacherData.TeachingSubject = teacherData.TeachingSubject.toUpperCase();
+
+    try {
+      const response = await Axios.post(
+        "http://localhost:3001/add-teacher",
+        teacherData
+      );
+      if (response.status === 200) {
+        window.alert(
+          "Congratulations! You are successfully added as a new teacher!"
+        );
+        navigate("/login");
+      } else {
+        window.alert(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <>
+      <Loginnavbar />
+      <div className="forBg">
+        <div className="body">
+          <div className="registration-container">
+            <div className="form-container py-4">
+              <form className="registration-form" onSubmit={addTeacher}>
+                <h3 className="form-title">Teacher Sign Up</h3>
+
+                {/* Progress Bar */}
+                <div className="progress-bar-container">
+                  <div
+                    className="progress-bar"
+                    style={{
+                      width: `${
+                        (completedFields / Object.keys(teacherData).length) *
+                        100
+                      }%`,
+                      backgroundColor: "#198f99", // Make sure the fill color is applied here
+                    }}
+                  />
+                </div>
+
+                <div className="form-fields">
+                  {/* Form Fields */}
+                  <div className="field-group">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="Full Name"
+                      name="Name"
+                      value={teacherData.Name}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="email"
+                      className="input-field"
+                      placeholder="Email"
+                      name="Email"
+                      value={teacherData.Email}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="number"
+                      className="input-field"
+                      placeholder="Phone"
+                      name="Phone"
+                      value={teacherData.Phone}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="Gender"
+                      name="Gender"
+                      value={teacherData.Gender}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="Age"
+                      name="Age"
+                      value={teacherData.Age}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <textarea
+                      className="input-field"
+                      placeholder="Address"
+                      name="Address"
+                      value={teacherData.Address}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="City"
+                      name="City"
+                      value={teacherData.City}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="Education"
+                      name="Education"
+                      value={teacherData.Education}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="Teaching Experience"
+                      name="TeachingExperience"
+                      value={teacherData.TeachingExperience}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="Online Teaching Experience"
+                      name="OnlineTeachingExperience"
+                      value={teacherData.OnlineTeachingExperience}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="Teaching Subject"
+                      name="TeachingSubject"
+                      value={teacherData.TeachingSubject}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="field-group">
+                    <textarea
+                      className="input-field"
+                      placeholder="Bio"
+                      name="Description"
+                      value={teacherData.Description}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  {/* Password Fields with Toggle Buttons inside the field */}
+                  <div className="field-group password-field">
+                    <input
+                      type={passwordVisible ? "text" : "password"}
+                      className="input-field"
+                      placeholder="Password"
+                      name="Password"
+                      value={teacherData.Password}
+                      onChange={handleChange}
+                    />
+                    <button
+                      type="button"
+                      className="toggle-password"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {passwordVisible ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                  <div className="field-group password-field">
+                    <input
+                      type={cPasswordVisible ? "text" : "password"}
+                      className="input-field"
+                      placeholder="Confirm Password"
+                      name="cPassword"
+                      value={teacherData.cPassword}
+                      onChange={handleChange}
+                    />
+                    <button
+                      type="button"
+                      className="toggle-password"
+                      onClick={toggleCPasswordVisibility}
+                    >
+                      {cPasswordVisible ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                </div>
+
+                <button type="submit" className="submit-button">
+                  Register
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default TeacherRegistration;

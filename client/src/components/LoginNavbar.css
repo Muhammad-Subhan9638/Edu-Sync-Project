@@ -1,0 +1,71 @@
+/* Custom Hover Effect */
+.positionNav {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  right: 0;
+}
+.custom-hover {
+  position: relative;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.custom-hover:hover {
+  color: #16717a;
+}
+.custom-hover.active {
+  color: #000;
+  font-weight: 600;
+}
+
+.custom-hover::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: -3px;
+  background-color: #16717a;
+  transition: width 0.3s ease;
+}
+
+.custom-hover:hover::after {
+  width: 100%;
+}
+.custom-color {
+  background-color: #16717a;
+}
+.nav-item {
+  display: flex;
+  margin: 5px;
+}
+
+/* Modal Styling */
+.modal.show {
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  backdrop-filter: blur(2px); /* Blur the background */
+}
+
+.modal-content {
+  border-radius: 8px;
+  padding: 20px;
+  border: none;
+}
+
+.modal-header {
+  background-color: #16717a;
+  color: #fff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.modal-body .btn {
+  background-color: #16717a;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.modal-body .btn:hover {
+  background-color: #198f99;
+}

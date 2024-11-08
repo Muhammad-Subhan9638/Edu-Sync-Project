@@ -694,6 +694,10 @@ img.dashboardImg {
   margin-top: 5px;
 }
 
+.dlt-cursor {
+  cursor: pointer;
+}
+
 button.backBtn {
   border: 0px;
   background-color: rgba(255, 255, 255, 0);
