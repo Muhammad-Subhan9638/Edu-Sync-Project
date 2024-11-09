@@ -1,0 +1,165 @@
+.teacherlist {
+  padding: 30px 0;
+}
+
+.TeachersListBanner {
+  position: relative;
+  padding: 50px 0;
+  text-align: center;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.TeachersListBanner h1 {
+  font-size: 36px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.TeachersListBanner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  z-index: -1;
+}
+
+.leftbar {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.subjects {
+  font-size: 16px;
+  padding: 12px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  border-radius: 5px;
+}
+
+.subjects:hover {
+  background-color: #198f99;
+  color: white;
+  transform: scale(1.05);
+}
+
+.teacher-sidebar {
+  padding: 15px;
+}
+
+.search-input {
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 100%; /* Full width for responsiveness */
+  margin-bottom: 10px;
+}
+
+.teacher-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column; /* Change to column for better stacking on small screens */
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  max-width: 1000px;
+}
+
+.teacher-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.teacher-card-content {
+  display: flex;
+  flex-direction: column; /* Stacked layout */
+  gap: 20px;
+  padding: 15px;
+}
+
+@media (min-width: 768px) {
+  .teacher-card-content {
+    flex-direction: row; /* Side-by-side layout for larger screens */
+  }
+}
+
+.pic-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.pic-tlist {
+  object-fit: cover;
+  width: 120px; /* Adjusted size */
+  height: 120px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.detail {
+  flex: 2;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.name {
+  font-size: 20px; /* Responsive font size */
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.education,
+.description,
+.teachingSubject,
+.experience,
+.teacher-card-footer {
+  font-size: 14px; /* Smaller font size for better readability */
+}
+
+@media (max-width: 576px) {
+  .TeachersListBanner h1 {
+    font-size: 28px; /* Smaller header font for small screens */
+  }
+
+  .teacher-card {
+    margin: 15px;
+  }
+
+  .detail {
+    padding: 10px;
+  }
+
+  .teacher-card-content {
+    flex-direction: column;
+  }
+
+  .pic-tlist {
+    width: 100px;
+    height: 100px;
+  }
+}

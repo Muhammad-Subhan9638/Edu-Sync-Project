@@ -22,7 +22,7 @@ const About = () => {
           background: "linear-gradient(135deg, #16717a, #33a9b5)",
         }}
       >
-        <h1 className="text-center display-4 fw-bold">About Us</h1>
+        <h1 className="text-center text-white display-4 fw-bold">About Us</h1>
       </div>
 
       <div className="container my-5">
