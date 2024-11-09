@@ -1,0 +1,182 @@
+/* General styling */
+.ProfilePage {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f7fc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-top {
+  background-color: #16717a;
+  padding: 10px;
+  color: white;
+  text-align: center;
+}
+
+.title h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.SideMain {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
+}
+
+.sidenav {
+  background-color: #ffffff;
+  width: 250px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+  text-align: center;
+}
+
+.profile img {
+  border-radius: 50%;
+  border: 5px solid #16717a;
+  margin-bottom: 10px;
+}
+
+.profile .name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.profile .job {
+  color: #aaa;
+}
+
+.sidenav-url {
+  margin-top: 20px;
+}
+
+.sidenav-url .url {
+  margin: 10px 0;
+}
+
+.sidenav-url .url a {
+  text-decoration: none;
+  color: #16717a;
+  font-size: 1.1rem;
+}
+
+.sidenav-url .url a.active {
+  font-weight: bold;
+}
+
+.sidenav-url .url button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #198f99;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sidenav-url .url button:hover {
+  background-color: #1d9fab;
+}
+
+.main {
+  flex-grow: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 0;
+}
+
+.card-body table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.card-body td {
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.card-body td.fw-bold {
+  font-weight: bold;
+  color: #333;
+}
+
+.card-body td.fst-italic {
+  font-style: italic;
+  color: #555;
+}
+
+.edit {
+  font-size: 18px;
+  color: #16717a;
+  cursor: pointer;
+  float: right;
+  margin-top: -10px;
+}
+
+.edit:hover {
+  color: #006666;
+}
+
+/* Update Popup */
+.Auth-form-container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.Auth-form-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #16717a;
+  text-align: center;
+}
+
+.form-control {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.btn {
+  background-color: #16717a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0a5d59;
+}
+
+.btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

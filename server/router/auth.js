@@ -366,7 +366,7 @@ router.get("/all-students", async (req, res) => {
 router.post("/update-img", async (req, res) => {
   try {
     const { _id } = req.body;
-    const file = req.file.file;
+    const file = req.files.file;
     const result = await cloudinary.uploader.upload(
       file.tempFilePath,
       (err, result) => {}
@@ -526,8 +526,8 @@ router.delete("/delete-task", async (req, res) => {
 router.post("/add-book", async (req, res) => {
   try {
     const { BookName, Class, Semester } = req.body;
-    const file = req.file.file;
-    const image = req.file.image;
+    const file = req.files.file;
+    const image = req.files.image;
     if (!BookName || !Class || !file) {
       return res.status(202).send("Please enter all the required fields.");
     } else {
