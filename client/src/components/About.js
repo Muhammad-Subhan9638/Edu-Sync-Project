@@ -28,8 +28,8 @@ const About = () => {
       <div className="container my-5">
         <div className="row justify-content-center">
           {/* Introduction Card */}
-          <div className="col-12 col-md-10 col-lg-8 mb-4">
-            <div className="card p-4 border-0 shadow-lg text-center">
+          <div className="col-12 col-md-10 col-lg-8 mb-4 contentCards">
+            <div className="card  p-4 border-0 shadow-lg text-center">
               <FaBook className="mb-3" size={40} color="#16717a" />
               <p className="fs-5">
                 Edu-Sync.com is a trusted free platform for students and
@@ -41,7 +41,7 @@ const About = () => {
           </div>
 
           {/* Mission Card */}
-          <div className="col-12 col-md-6 mb-4">
+          <div className="col-12 col-md-6 mb-4 contentCards">
             <div className="card p-4 border-0 shadow-lg text-center">
               <FaBullseye className="mb-3" size={40} color="#16717a" />
               <h3 className="fw-bold">Our Mission</h3>
@@ -54,7 +54,7 @@ const About = () => {
           </div>
 
           {/* Commitment Card */}
-          <div className="col-12 col-md-6 mb-4">
+          <div className="col-12 col-md-6 mb-4 contentCards">
             <div className="card p-4 border-0 shadow-lg text-center">
               <FaHandshake className="mb-3" size={40} color="#16717a" />
               <h3 className="fw-bold">Our Commitment</h3>
@@ -68,7 +68,7 @@ const About = () => {
           </div>
 
           {/* Why We Do Things This Way Card */}
-          <div className="col-12 col-md-6 mb-4">
+          <div className="col-12 col-md-6 mb-4 contentCards">
             <div className="card p-4 border-0 shadow-lg text-center">
               <FaLightbulb className="mb-3" size={40} color="#16717a" />
               <h3 className="fw-bold">Why We Do Things This Way</h3>
@@ -82,7 +82,7 @@ const About = () => {
           </div>
 
           {/* Lessons Learned Card */}
-          <div className="col-12 col-md-6 mb-4">
+          <div className="col-12 col-md-6 mb-4 contentCards">
             <div className="card p-4 border-0 shadow-lg text-center">
               <FaHeart className="mb-3" size={40} color="#16717a" />
               <h3 className="fw-bold">Lessons Learned</h3>
