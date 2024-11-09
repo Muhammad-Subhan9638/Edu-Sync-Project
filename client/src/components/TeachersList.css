@@ -109,6 +109,12 @@
   padding: 15px;
 }
 
+.d-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .pic-tlist {
   object-fit: cover;
   width: 120px; /* Adjusted size */
