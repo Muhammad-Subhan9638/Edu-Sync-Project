@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Loginnavbar } from "./Loginnavbar";
@@ -51,16 +51,16 @@ const TeacherRegistration = () => {
     setPasswordErrors(errors);
   };
 
-  const countCompletedFields = () => {
+  const countCompletedFields = useCallback(() => {
     const filledFields = Object.values(teacherData).filter(
       (field) => field.trim() !== ""
     ).length;
     setCompletedFields(filledFields);
-  };
+  }, [teacherData]);
 
   useEffect(() => {
     countCompletedFields();
-  }, [teacherData]);
+  }, [countCompletedFields]);
 
   const validateForm = () => {
     const { Password, cPassword } = teacherData;

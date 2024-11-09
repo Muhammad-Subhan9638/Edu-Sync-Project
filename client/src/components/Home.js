@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Global from "../images/global.png";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
