@@ -22,7 +22,7 @@ const MyProfile = () => {
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [updatedStudentClass, setUpdatedStudentClass] = useState("");
   const [updatedAge, setUpdatedAge] = useState("");
-  const [removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Ensure this is correctly destructured
 
   const UpdatedData = {
     _id: userData._id,
@@ -70,10 +70,14 @@ const MyProfile = () => {
   const editHandler = () => setTrigger(true);
 
   async function handleRemoveCookie() {
-    await removeCookie("token");
-    navigate("/login");
-    localStorage.removeItem("role");
-    dispatch({ type: state, payload: false });
+    try {
+      await removeCookie("token"); // This should work now
+      localStorage.removeItem("role");
+      dispatch({ type: state, payload: false });
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   }
 
   async function UpdateData(e) {
