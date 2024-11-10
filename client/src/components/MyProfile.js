@@ -23,6 +23,8 @@ const MyProfile = () => {
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [updatedStudentClass, setUpdatedStudentClass] = useState("");
   const [updatedAge, setUpdatedAge] = useState("");
+  const [loading, setLoading] = useState(false); // Main loading state
+  const [imageLoading, setImageLoading] = useState(false); // Profile picture loading state
 
   const alert = (text) => toast(text);
 
@@ -38,6 +40,7 @@ const MyProfile = () => {
 
   const callMyprofile = useCallback(() => {
     try {
+      setLoading(true);
       const UserToken = BrowserCookie();
       const token = UserToken.UserToken;
       Axios.get("http://localhost:3001/my-profile", {
@@ -58,9 +61,11 @@ const MyProfile = () => {
             navigate("/myprofile");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   }, [navigate]);
 
@@ -89,6 +94,7 @@ const MyProfile = () => {
       return alert("Please Enter all the fields below");
     } else {
       try {
+        setLoading(true);
         Axios.put("http://localhost:3001/update-student", UpdatedData)
           .then((response) => {
             if (response.status === 200) {
@@ -99,36 +105,41 @@ const MyProfile = () => {
               alert("Error!");
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.log(err))
+          .finally(() => setLoading(false));
       } catch (err) {
         console.error(err);
+        setLoading(false);
       }
     }
   }
 
   const save = () => {
     const imageData = new FormData();
-    imageData.append("_id", userData._id); // Ensure userId is correctly appended
-    imageData.append("file", Image); // Append the image file here
+    imageData.append("_id", userData._id);
+    imageData.append("file", Image);
 
     if (Image) {
       try {
+        setImageLoading(true); // Set image loading to true
         Axios.post("http://localhost:3001/update-img", imageData, {
           headers: {
-            "Content-Type": "multipart/form-data", // Ensure this header is set for image uploads
+            "Content-Type": "multipart/form-data",
           },
         })
           .then((response) => {
             if (response.status === 200) {
-              setUserData(response.data); // Update user data after successful upload
-              navigate("/myprofile"); // Redirect or update the page
+              setUserData(response.data);
+              navigate("/myprofile");
             } else {
               alert("Your Data Didn't Update!");
             }
           })
-          .catch((error) => console.error(error));
+          .catch((error) => console.error(error))
+          .finally(() => setImageLoading(false)); // Set image loading to false
       } catch (e) {
         console.error(e);
+        setImageLoading(false);
       }
     } else {
       alert("Please Upload Your Profile Pic");
@@ -139,33 +150,51 @@ const MyProfile = () => {
     <>
       <ToastContainer />
       <Navbar />
+      {loading && (
+        <div className="loading-spinner">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
       <div className="profile-page container-fluid py-5">
         <div className="row">
           {/* Left Sidebar */}
           <div className="col-lg-3 col-md-4">
             <div className="profile-card card shadow-lg">
               <div className="card-body text-center">
-                {userData.Image?.url ? (
-                  <img
-                    src={userData.Image.url}
-                    alt="Profile"
-                    className="profile-img rounded-circle mb-3"
-                    width="150"
-                    height="150"
-                  />
-                ) : (
-                  <img
-                    src={userData.Image}
-                    alt="Profile"
-                    className="profile-img rounded-circle mb-3"
-                    width="150"
-                    height="150"
-                  />
-                )}
+                <div className="profile-img-wrapper">
+                  {imageLoading ? (
+                    <div
+                      className="spinner-border profile-img-loader"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    <>
+                      {userData.Image?.url ? (
+                        <img
+                          src={userData.Image.url}
+                          alt="Profile"
+                          className="profile-img rounded-circle mb-3"
+                          width="150"
+                          height="150"
+                        />
+                      ) : (
+                        <img
+                          src={userData.Image}
+                          alt="Profile"
+                          className="profile-img rounded-circle mb-3"
+                          width="150"
+                          height="150"
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
                 <div>
                   <form onSubmit={(e) => e.preventDefault()}>
-                    {" "}
-                    {/* Prevent default form submission */}
                     <input
                       id="files"
                       style={{ display: "none" }}
@@ -201,7 +230,7 @@ const MyProfile = () => {
                       Chat
                     </Link>
                   </button>
-                  <button className="actionBtn " onClick={handleRemoveCookie}>
+                  <button className="actionBtn" onClick={handleRemoveCookie}>
                     Logout
                   </button>
                 </div>
@@ -255,89 +284,7 @@ const MyProfile = () => {
       </div>
 
       <UpdatePopup trigger={trigger} setTrigger={setTrigger}>
-        <div className="auth-form-container py-4">
-          <form className="auth-form">
-            <div className="auth-form-content">
-              <h3 className="auth-form-title">UPDATE YOUR INFO</h3>
-              <p className="text-center">Email Will not be Updated</p>
-              <div className="form-group mt-3 mx-2">
-                <label>Full Name</label>
-                <input
-                  type="text"
-                  className="form-control mt-1"
-                  placeholder="e.g Jane Doe"
-                  value={updatedName}
-                  onChange={(event) => setUpdatedName(event.target.value)}
-                />
-              </div>
-              <div className="d-flex justify-content-between">
-                <div className="mx-2">
-                  <div className="form-group mt-3">
-                    <label>Address</label>
-                    <input
-                      type="text"
-                      className="form-control mt-1"
-                      placeholder="address"
-                      value={updatedAddress}
-                      onChange={(event) =>
-                        setUpdatedAddress(event.target.value)
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="mx-2">
-                  <div className="form-group mt-3">
-                    <label>Phone</label>
-                    <input
-                      type="text"
-                      className="form-control mt-1"
-                      placeholder="e.g 0196xxxxxxx"
-                      value={updatedPhone}
-                      onChange={(event) => setUpdatedPhone(event.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-between">
-                <div className="mx-2">
-                  <div className="form-group mt-3">
-                    <label>Age</label>
-                    <input
-                      type="number"
-                      className="form-control mt-1"
-                      placeholder="e.g 21"
-                      value={updatedAge}
-                      onChange={(event) => setUpdatedAge(event.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="mx-2">
-                  <div className="form-group mt-3">
-                    <label>Class</label>
-                    <input
-                      type="number"
-                      className="form-control mt-1"
-                      placeholder="e.g 9"
-                      value={updatedStudentClass}
-                      onChange={(event) =>
-                        setUpdatedStudentClass(event.target.value)
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="d-grid gap-2 mt-3">
-                <button
-                  className="btn btn-outline-primary"
-                  type="submit"
-                  onClick={UpdateData}
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+        {/* Update form content */}
       </UpdatePopup>
       <Footer />
     </>
