@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import Axios from "axios";
 import { BrowserCookie } from "../helpers/BrowserCookies";
 import { useCookies } from "react-cookie";
@@ -15,14 +15,16 @@ const MyProfile = () => {
   const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
-  const [trigger, setTrigger] = useState();
+  const [, , removeCookie] = useCookies(["token"]);
+  const [trigger, setTrigger] = useState(false);
   const [updatedName, setUpdatedName] = useState("");
   const [Image, setImage] = useState(null);
   const [updatedPhone, setUpdatedPhone] = useState("");
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [updatedStudentClass, setUpdatedStudentClass] = useState("");
   const [updatedAge, setUpdatedAge] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Ensure this is correctly destructured
+
+  const alert = (text) => toast(text);
 
   const UpdatedData = {
     _id: userData._id,
@@ -34,50 +36,45 @@ const MyProfile = () => {
     Age: updatedAge,
   };
 
-  useEffect(() => {
-    const callMyprofile = function () {
-      try {
-        const UserToken = BrowserCookie();
-        const token = UserToken.UserToken;
-        Axios.get("http://localhost:3001/my-profile", {
-          headers: {
-            authorization: `${token}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
+  const callMyprofile = useCallback(() => {
+    try {
+      const UserToken = BrowserCookie();
+      const token = UserToken.UserToken;
+      Axios.get("http://localhost:3001/my-profile", {
+        headers: {
+          authorization: `${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          const Data = response.data;
+          setUserData(Data);
+          if (Data.TeachingExperience) {
+            navigate("/teacherprofile");
+          } else if (Data.UserName) {
+            navigate("/dashboard");
+          } else {
+            navigate("/myprofile");
+          }
         })
-          .then((response) => {
-            let Data = response.data;
-            setUserData(Data);
-            if (Data.TeachingExperience) {
-              navigate("/teacherprofile");
-            } else if (Data.UserName) {
-              navigate("/dashboard");
-            } else {
-              navigate("/myprofile");
-            }
-          })
-          .catch((err) => console.log(err));
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    callMyprofile();
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+    }
   }, [navigate]);
 
-  const alert = (text) => toast(text);
+  useEffect(() => {
+    callMyprofile();
+  }, [callMyprofile]);
 
   const editHandler = () => setTrigger(true);
 
   async function handleRemoveCookie() {
-    try {
-      await removeCookie("token"); // This should work now
-      localStorage.removeItem("role");
-      dispatch({ type: state, payload: false });
-      navigate("/login");
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
+    removeCookie("token");
+    navigate("/login");
+    localStorage.removeItem("role");
+    dispatch({ type: state, payload: false });
   }
 
   async function UpdateData(e) {
@@ -274,55 +271,70 @@ const MyProfile = () => {
                 />
               </div>
               <div className="d-flex justify-content-between">
-                <div className="form-group mt-3 mx-2">
-                  <label>Phone Number</label>
-                  <input
-                    type="text"
-                    className="form-control mt-1"
-                    placeholder="e.g 9876543210"
-                    value={updatedPhone}
-                    onChange={(event) => setUpdatedPhone(event.target.value)}
-                  />
+                <div className="mx-2">
+                  <div className="form-group mt-3">
+                    <label>Address</label>
+                    <input
+                      type="text"
+                      className="form-control mt-1"
+                      placeholder="address"
+                      value={updatedAddress}
+                      onChange={(event) =>
+                        setUpdatedAddress(event.target.value)
+                      }
+                    />
+                  </div>
                 </div>
-                <div className="form-group mt-3 mx-2">
-                  <label>Address</label>
-                  <input
-                    type="text"
-                    className="form-control mt-1"
-                    placeholder="e.g 24st Road"
-                    value={updatedAddress}
-                    onChange={(event) => setUpdatedAddress(event.target.value)}
-                  />
+                <div className="mx-2">
+                  <div className="form-group mt-3">
+                    <label>Phone</label>
+                    <input
+                      type="text"
+                      className="form-control mt-1"
+                      placeholder="e.g 0196xxxxxxx"
+                      value={updatedPhone}
+                      onChange={(event) => setUpdatedPhone(event.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="form-group mt-3 mx-2">
-                <label>Class</label>
-                <input
-                  type="text"
-                  className="form-control mt-1"
-                  placeholder="e.g 11th"
-                  value={updatedStudentClass}
-                  onChange={(event) =>
-                    setUpdatedStudentClass(event.target.value)
-                  }
-                />
+              <div className="d-flex justify-content-between">
+                <div className="mx-2">
+                  <div className="form-group mt-3">
+                    <label>Age</label>
+                    <input
+                      type="number"
+                      className="form-control mt-1"
+                      placeholder="e.g 21"
+                      value={updatedAge}
+                      onChange={(event) => setUpdatedAge(event.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="mx-2">
+                  <div className="form-group mt-3">
+                    <label>Class</label>
+                    <input
+                      type="number"
+                      className="form-control mt-1"
+                      placeholder="e.g 9"
+                      value={updatedStudentClass}
+                      onChange={(event) =>
+                        setUpdatedStudentClass(event.target.value)
+                      }
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="form-group mt-3 mx-2">
-                <label>Age</label>
-                <input
-                  type="text"
-                  className="form-control mt-1"
-                  placeholder="e.g 20"
-                  value={updatedAge}
-                  onChange={(event) => setUpdatedAge(event.target.value)}
-                />
+              <div className="d-grid gap-2 mt-3">
+                <button
+                  className="btn btn-outline-primary"
+                  type="submit"
+                  onClick={UpdateData}
+                >
+                  Submit
+                </button>
               </div>
-              <button
-                className="btn btn-success update-btn mt-3"
-                onClick={UpdateData}
-              >
-                Save Changes
-              </button>
             </div>
           </form>
         </div>
