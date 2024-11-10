@@ -1,0 +1,126 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  flex-direction: column;
+  background: linear-gradient(90deg, #16717a 0%, #ffffff 50%);
+  text-align: center;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.HBanners {
+  height: auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.teacherLink {
+  height: auto;
+  padding: 40px 30px;
+  margin-top: 20px;
+  background-color: #f9f9f9; /* Light background for better contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 10px;
+}
+.teacherLink h2 {
+  color: #16717a; /* Matching color palette */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.teacherLink p {
+  color: #000; /* Darker color for readability */
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.BHbanner {
+  background-image: url(../images/3.png);
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  padding: 50px 30px;
+  margin-bottom: 20px;
+}
+
+.global {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url(../images/faces.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 30px 15px;
+}
+.about-section {
+  padding: 20px 0;
+}
+
+.about-section img {
+  max-width: 100%;
+  height: auto;
+}
+
+.about-section .formbtn {
+  background-color: #16717a; /* Matching your color palette */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.about-section .formbtn:hover {
+  background-color: #135e66; /* Slightly darker shade for hover */
+}
+
+@media (max-width: 768px) {
+  .container.d-flex.flex-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .d-flex.flex-row.justify-content-between {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .hero {
+    height: auto;
+    padding: 20px;
+  }
+
+  .BHbanner,
+  .teacherLink {
+    padding: 30px 15px;
+  }
+
+  .global img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .teacherLink {
+    padding: 30px 20px;
+  }
+}
+@media (max-width: 576px) {
+  .hero h1,
+  .hero p {
+    font-size: 1.5rem;
+  }
+
+  .HBanners h2,
+  .HBanners h4 {
+    font-size: 1.2rem;
+  }
+
+  .global h3 {
+    font-size: 1.4rem;
+  }
+}

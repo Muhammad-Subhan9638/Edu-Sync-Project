@@ -9,6 +9,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./myProfile.css";
 
 const MyProfile = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -107,16 +108,20 @@ const MyProfile = () => {
 
   const save = () => {
     const imageData = new FormData();
-    imageData.append("_id", userData._id);
-    imageData.append("file", Image);
+    imageData.append("_id", userData._id); // Ensure userId is correctly appended
+    imageData.append("file", Image); // Append the image file here
 
     if (Image) {
       try {
-        Axios.post("http://localhost:3001/update-img", imageData)
+        Axios.post("http://localhost:3001/update-img", imageData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Ensure this header is set for image uploads
+          },
+        })
           .then((response) => {
             if (response.status === 200) {
-              setUserData(response.data);
-              navigate("/myprofile");
+              setUserData(response.data); // Update user data after successful upload
+              navigate("/myprofile"); // Redirect or update the page
             } else {
               alert("Your Data Didn't Update!");
             }
@@ -134,107 +139,112 @@ const MyProfile = () => {
     <>
       <ToastContainer />
       <Navbar />
-      <div className="ProfilePage">
-        <div className="navbar-top">
-          <div className="title">
-            <h1>Profile</h1>
-          </div>
-        </div>
-        <div className="SideMain">
-          <div className="sidenav">
-            <div className="profile">
-              {userData.Image?.url ? (
-                <img src={userData.Image.url} alt="" width="200" height="200" />
-              ) : (
-                <img src={userData.Image} alt="" width="200" height="200" />
-              )}
-              <div>
-                <form>
-                  <input
-                    id="files"
-                    style={{ display: "none" }}
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) => setImage(event.target.files[0])}
+      <div className="profile-page container-fluid py-5">
+        <div className="row">
+          {/* Left Sidebar */}
+          <div className="col-lg-3 col-md-4">
+            <div className="profile-card card shadow-lg">
+              <div className="card-body text-center">
+                {userData.Image?.url ? (
+                  <img
+                    src={userData.Image.url}
+                    alt="Profile"
+                    className="profile-img rounded-circle mb-3"
+                    width="150"
+                    height="150"
                   />
-                  <label htmlFor="files" className="btn">
-                    Select Image
-                  </label>
-                  {Image && (
+                ) : (
+                  <img
+                    src={userData.Image}
+                    alt="Profile"
+                    className="profile-img rounded-circle mb-3"
+                    width="150"
+                    height="150"
+                  />
+                )}
+                <div>
+                  <form onSubmit={(e) => e.preventDefault()}>
+                    {" "}
+                    {/* Prevent default form submission */}
                     <input
-                      type="button"
-                      value="Save"
-                      onClick={save}
-                      id="savebtn"
+                      id="files"
+                      style={{ display: "none" }}
+                      type="file"
+                      accept="image/*"
+                      onChange={(event) => {
+                        const selectedFile = event.target.files[0];
+                        if (selectedFile) {
+                          setImage(selectedFile);
+                        }
+                      }}
                     />
-                  )}
-                </form>
-              </div>
-              <div className="name">{userData.Name}</div>
-              <div className="job">Student</div>
-            </div>
-            <div className="sidenav-url">
-              <div className="url">
-                <Link to="" className="active">
-                  Profile
-                </Link>
-                <hr align="center" />
-              </div>
-            </div>
-            <div className="sidenav-url">
-              <div className="url">
-                <Link to="/chat" className="active">
-                  Chat
-                </Link>
-                <hr align="center" />
-              </div>
-            </div>
-            <div className="sidenav-url">
-              <div className="url">
-                <Link to="" className="active">
-                  <button className="btn" onClick={handleRemoveCookie}>
+                    <button type="button" className="selectImg text-white">
+                      <label htmlFor="files" className="text-white fw-semibold">
+                        Select Image
+                      </label>
+                    </button>
+                    {Image && (
+                      <input
+                        type="button"
+                        value="Save"
+                        onClick={save}
+                        className=" btnSave mt-2"
+                      />
+                    )}
+                  </form>
+                </div>
+                <h5 className="profile-name">{userData.Name}</h5>
+                <p className="text-muted profile-role">Student</p>
+                <div className="button-group">
+                  <button className="actionBtn text-white">
+                    <Link className="text-white" to="/chat">
+                      Chat
+                    </Link>
+                  </button>
+                  <button className="actionBtn " onClick={handleRemoveCookie}>
                     Logout
                   </button>
-                </Link>
+                </div>
               </div>
             </div>
           </div>
-          <div className="main">
-            <h2>IDENTITY</h2>
-            <div className="card">
+
+          {/* Right Content */}
+          <div className="col-lg-9 col-md-8">
+            <div className="profile-info card shadow-lg">
+              <div className="cardheader">
+                <h4 className="profile-info-title">Profile Information</h4>
+                <i
+                  className="fa fa-pen fa-xs float-end edit-icon"
+                  onClick={editHandler}
+                ></i>
+              </div>
               <div className="card-body">
-                <i className="fa fa-pen fa-xs edit" onClick={editHandler}></i>
-                <table>
+                <table className="table table-bordered profile-table">
                   <tbody>
                     <tr>
                       <td className="fw-bold">Full Name</td>
-                      <td>:</td>
-                      <td className="fst-italic">{userData.Name}</td>
+                      <td>{userData.Name}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Email</td>
-                      <td>:</td>
-                      <td className="fst-italic">{userData.Email}</td>
+                      <td>{userData.Email}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Address</td>
-                      <td>:</td>
-                      <td className="fst-italic">{userData.Address}</td>
+                      <td>{userData.Address}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Age</td>
-                      <td>:</td>
-                      <td className="fst-italic">{userData.Age}</td>
+                      <td>{userData.Age}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Class</td>
-                      <td>:</td>
-                      <td className="fst-italic">{userData.StudentClass}</td>
+                      <td>{userData.StudentClass}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Phone</td>
-                      <td>:</td>
-                      <td className="fst-italic">{userData.Phone}</td>
+                      <td>{userData.Phone}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -243,12 +253,13 @@ const MyProfile = () => {
           </div>
         </div>
       </div>
+
       <UpdatePopup trigger={trigger} setTrigger={setTrigger}>
-        <div className="Auth-form-container py-4">
-          <form className="Auth-form">
-            <div className="Auth-form-content">
-              <h3 className="Auth-form-title">UPDATE YOUR INFO</h3>
-              <p className="text-center">Email Will not be Update</p>
+        <div className="auth-form-container py-4">
+          <form className="auth-form">
+            <div className="auth-form-content">
+              <h3 className="auth-form-title">UPDATE YOUR INFO</h3>
+              <p className="text-center">Email Will not be Updated</p>
               <div className="form-group mt-3 mx-2">
                 <label>Full Name</label>
                 <input

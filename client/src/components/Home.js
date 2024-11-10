@@ -1,9 +1,10 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Global from "../images/global.png";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import classroom from "../images/classroom.png";
+import "./Hero.css";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -23,31 +24,29 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="container d-flex flex-row justify-content-center align-items-center my-4">
-        <div>
-          <img src={classroom} alt="" />
-        </div>
-        <div className="container d-flex flex-column justify-content-center align-items-center my-4">
-          <div>
+      <div className="container my-4 about-section">
+        <div className="row align-items-center">
+          <div className="col-12 col-md-6 mb-3">
+            <img
+              src={classroom}
+              alt="Classroom"
+              className="img-fluid rounded"
+            />
+          </div>
+          <div className="col-12 col-md-6 my-4 text-center text-md-center">
             <h2>About Edu-Sync</h2>
-          </div>
-          <div className="d-flex justify-content-center align-item-center mx-4">
-            <p className="text-center">
-              Edu-Sync.com is a free website, trusted by thousands of students
-              and teachers, throughout the world. We are not the biggest, but we
-              care the most. Even though you will visit other websites for
-              similar services, we want you to remember us and tell your friends
-              about us. We put the work to be that awesome for you.
+            <p>
+              Edu-Sync.com is a trusted platform for thousands of students and
+              teachers worldwide. We provide a seamless way to connect learners
+              with qualified educators to enhance educational experiences and
+              success.
             </p>
+            <div className="d-flex justify-content-center justify-content-md-center">
+              <button className="formbtn" onClick={() => navigate("/about")}>
+                Read More
+              </button>
+            </div>
           </div>
-          <button
-            className="formbtn"
-            onClick={() => {
-              navigate("/about");
-            }}
-          >
-            Read More
-          </button>
         </div>
       </div>
 
@@ -74,14 +73,13 @@ const Home = () => {
         </div>
         <div>
           <div className="container teacherLink d-flex flex-column justify-content-center align-items-center my-4 BHbanner">
-            <h2>What we do?</h2>
-            <p className="text-center">
+            <h2 className="text-center mb-3">What we do?</h2>
+            <p className="text-center lead">
               Edu-Sync.com is a free website, trusted by thousands of students
-              and teachers, all over the world.
-              <br />
-              You can find local tutors, online teachers, and teachers to help
-              with tutoring, coaching, assignments, academic projects, and
-              dissertations for over 9500 subjects.
+              and teachers all over the world. You can find local tutors, online
+              teachers, and educators to help with tutoring, coaching,
+              assignments, academic projects, and dissertations for over 9500
+              subjects.
             </p>
           </div>
         </div>
