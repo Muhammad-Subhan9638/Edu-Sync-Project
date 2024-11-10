@@ -24,20 +24,28 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="container d-flex flex-wrap justify-content-center align-items-center my-4">
-        <div className="col-12 col-md-6 mb-3">
-          <img src={classroom} alt="Classroom" className="img-fluid rounded" />
-        </div>
-        <div className="col-12 col-md-6 my-4">
-          <h2 className="text-center">About Edu-Sync</h2>
-          <p className="text-center">
-            Edu-Sync.com is a free website, trusted by thousands of students and
-            teachers worldwide. We care the most...
-          </p>
-          <div className="d-flex justify-content-center">
-            <button className="formbtn" onClick={() => navigate("/about")}>
-              Read More
-            </button>
+      <div className="container my-4 about-section">
+        <div className="row align-items-center">
+          <div className="col-12 col-md-6 mb-3">
+            <img
+              src={classroom}
+              alt="Classroom"
+              className="img-fluid rounded"
+            />
+          </div>
+          <div className="col-12 col-md-6 my-4 text-center text-md-center">
+            <h2>About Edu-Sync</h2>
+            <p>
+              Edu-Sync.com is a trusted platform for thousands of students and
+              teachers worldwide. We provide a seamless way to connect learners
+              with qualified educators to enhance educational experiences and
+              success.
+            </p>
+            <div className="d-flex justify-content-center justify-content-md-center">
+              <button className="formbtn" onClick={() => navigate("/about")}>
+                Read More
+              </button>
+            </div>
           </div>
         </div>
       </div>

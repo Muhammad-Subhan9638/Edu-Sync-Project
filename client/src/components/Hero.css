@@ -53,6 +53,28 @@
   background-attachment: fixed;
   padding: 30px 15px;
 }
+.about-section {
+  padding: 20px 0;
+}
+
+.about-section img {
+  max-width: 100%;
+  height: auto;
+}
+
+.about-section .formbtn {
+  background-color: #16717a; /* Matching your color palette */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.about-section .formbtn:hover {
+  background-color: #135e66; /* Slightly darker shade for hover */
+}
 
 @media (max-width: 768px) {
   .container.d-flex.flex-row {
