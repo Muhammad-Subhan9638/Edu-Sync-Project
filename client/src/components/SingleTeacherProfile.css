@@ -1,0 +1,24 @@
+.container {
+  max-width: 1200px;
+}
+
+.card {
+  border-radius: 15px;
+}
+
+.profile img {
+  border: 3px solid #16717a; /* Match color palette */
+}
+
+.table td {
+  padding: 0.5rem;
+}
+
+h1.display-4 {
+  color: #16717a; /* Title color */
+}
+
+.card-body h3 {
+  border-bottom: 2px solid #16717a;
+  padding-bottom: 5px;
+}

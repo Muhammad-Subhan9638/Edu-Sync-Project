@@ -1,0 +1,75 @@
+.LoginBody {
+  height: 100vh;
+  background: linear-gradient(135deg, #198f99 0%, #dadada 100%);
+}
+.registration-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.form-container {
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.field-group {
+  margin-bottom: 1rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.input-field::placeholder {
+  color: #777;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #16717a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #198f99;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1rem;
+  }
+}

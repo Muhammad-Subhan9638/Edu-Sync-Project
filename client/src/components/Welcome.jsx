@@ -4,40 +4,32 @@ import Robot from "../assets/robot.gif";
 import { BrowserCookie } from "../helpers/BrowserCookies";
 import Axios from "axios";
 
-
 export default function Welcome() {
   const [userName, setUserName] = useState("");
   useEffect(() => {
-
     const welCome_Func = async () => {
-
       try {
-        const UserToken = BrowserCookie()
+        const UserToken = BrowserCookie();
         const token = UserToken.UserToken;
-        Axios.get("http://localhost:3001/my-profile",
-          {
-            headers: {
-              'authorization': `${token}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          }
-        ).then((response) => {
-          const data = response.data
-          setUserName(data.Name);
-        }).catch((err) => {
-          console.log(err)
+        Axios.get("http://localhost:3001/my-profile", {
+          headers: {
+            authorization: `${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
         })
+          .then((response) => {
+            const data = response.data;
+            setUserName(data.Name);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } catch (err) {
         console.log(err);
       }
-
-
-
-
-
-    }
-    welCome_Func()
+    };
+    welCome_Func();
   }, []);
   return (
     <Container>

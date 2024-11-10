@@ -1,0 +1,50 @@
+.library-banner {
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.library-banner h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.card.library-card {
+  border: none;
+  border-radius: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+}
+
+.card.library-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(22, 113, 122, 0.3);
+}
+
+.card-img-top {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  color: #000;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #16717a;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #145e66;
+}
+
+@media (max-width: 768px) {
+  .library-banner h1 {
+    font-size: 2rem;
+  }
+}

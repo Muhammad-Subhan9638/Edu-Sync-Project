@@ -1,0 +1,28 @@
+.custom-hover {
+  position: relative;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.custom-hover:hover {
+  color: #0f99a7;
+}
+.custom-hover.active {
+  color: #000;
+  font-weight: 600;
+}
+
+.custom-hover::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: -3px;
+  background-color: #0f99a7;
+  transition: width 0.3s ease;
+}
+
+.custom-hover:hover::after {
+  width: 100%;
+}
