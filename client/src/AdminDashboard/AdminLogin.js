@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { CookieFunction } from "../helpers/index";
 import dummyProfile from "../assets/dummyprofile.png";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons for show/hide password
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
@@ -11,6 +12,11 @@ const AdminLogin = () => {
     UserName: "",
     Password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const LoginAdmin = async (e) => {
     e.preventDefault();
@@ -61,13 +67,19 @@ const AdminLogin = () => {
           <div className="admin-login__field">
             <i className="admin-login__icon fas fa-lock"></i>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} // Toggle input type
               className="admin-login__input"
               placeholder="Enter password"
               value={AdminData.Password}
               name="Password"
               onChange={handleChange}
             />
+            <span
+              className="admin-login__toggle-password"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
           <button type="submit" className="admin-login__button">
             Login

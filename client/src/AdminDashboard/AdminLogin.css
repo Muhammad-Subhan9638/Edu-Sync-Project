@@ -120,3 +120,10 @@
     padding: 2rem 1rem;
   }
 }
+.admin-login__toggle-password {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
