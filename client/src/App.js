@@ -10,7 +10,6 @@ import Login from "./components/Login";
 import MyProfile from "./components/MyProfile";
 import Protected from "./components/Protected";
 import AdminProtected from "./AdminDashboard/AdminProtected";
-// import AdminProtect2 from "./AdminDashboard/AdminProtect2";
 import AdminLogin from "./AdminDashboard/AdminLogin";
 import TeacherProfile from "./components/Teacherprofile";
 import TeachersList from "./components/TeachersList";
