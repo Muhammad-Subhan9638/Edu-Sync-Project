@@ -19,21 +19,15 @@ const Footer = () => {
             <span>Get connected with us on social networks:</span>
           </div>
           <div>
-            <Link to="#" className="me-4 text-reset">
-              <i className="fab fa-facebook-f"></i>
-            </Link>
-            <Link to="#" className="me-4 text-reset">
-              <i className="fab fa-twitter"></i>
-            </Link>
-            <Link to="#" className="me-4 text-reset">
-              <i className="fab fa-google"></i>
-            </Link>
-            <Link to="#" className="me-4 text-reset">
-              <i className="fab fa-instagram"></i>
-            </Link>
-            <Link to="#" className="me-4 text-reset">
-              <i className="fab fa-github"></i>
-            </Link>
+          <a href="https://www.facebook.com/" className="me-4 text-reset" target="_blank" rel="noopener noreferrer">
+          <i className="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com/" className="me-4 text-reset" target="_blank" rel="noopener noreferrer">
+          <i className="fab fa-twitter"></i></a>
+          <a href="https://github.com/Muhammad-Subhan9638/Edu-Sync-Project" className="me-4 text-reset" target="_blank" rel="noopener noreferrer">
+          <i className="fab fa-github"></i></a>
+          <a href="https://linkedin.com/" className="me-4 text-reset" target="_blank" rel="noopener noreferrer">
+          <i className="fab fa-linkedin"></i></a>
+
           </div>
         </section>
 
