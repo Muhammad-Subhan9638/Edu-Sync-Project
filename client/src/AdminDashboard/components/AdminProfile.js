@@ -25,7 +25,7 @@ export const AdminProfile = () => {
     Age: updatedAge,
   };
   const navigate = useNavigate();
-  useEffect((e) => {
+  useEffect(() => {
     try {
       const UserToken = BrowserCookie();
       const token = UserToken.UserToken;
@@ -79,7 +79,6 @@ export const AdminProfile = () => {
   };
   const save = (e) => {
     e.preventDefault();
-
     const imageData = new FormData();
     imageData.append("_id", adminData._id);
     imageData.append("file", Image);

@@ -1,4 +1,4 @@
-.body {
+body {
   height: 100%;
   background: linear-gradient(135deg, #198f99 0%, #dadada 100%);
 }
@@ -7,11 +7,9 @@
   max-width: 800px;
   margin: auto;
   padding: 1rem;
-  
 }
 
 .form-container {
-
   background: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
