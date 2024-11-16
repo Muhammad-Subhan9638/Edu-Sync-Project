@@ -1,0 +1,42 @@
+.card {
+  border-radius: 15px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.input-group-text {
+  height: auto; /* Ensure flexibility for varying field sizes */
+  padding: 0 12px !important; /* Reduced padding */
+  border: 1px solid #198f99;
+  border-right: none;
+}
+
+.input-group .form-control {
+  border: 1px solid #198f99;
+}
+
+.input-group .form-control:focus {
+  border-color: #198f99;
+  box-shadow: 0 0 5px rgba(25, 143, 153, 0.5);
+}
+
+.loginButton {
+  background: #198f99;
+  padding: 10px;
+  outline: none;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.loginButton:hover {
+  background-color: #1da1ad !important;
+  color: white !important;
+}
+
+h3 {
+  font-weight: bold;
+}

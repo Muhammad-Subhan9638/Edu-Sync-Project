@@ -4,95 +4,97 @@ import Logo from '../../images/Edu-Sync.png';
 import { useCookies } from "react-cookie";
 import Axios from 'axios';
 import { BrowserCookie } from '../../helpers/BrowserCookies';
-
+import './Sidebar.css';
 
 export const Sidebar = () => {
     const [adminData, setAdminData] = useState('');
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    
     useEffect(() => {
         try {
             const UserToken = BrowserCookie();
             const token = UserToken.UserToken;
-            Axios.get("http://localhost:3001/admin-dashboard",
-                {
-                    headers: {
-                        'authorization': `${token}`,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                }
-            ).then((response) => {
-                let Data = response.data;
-                setAdminData(Data);
-            }).catch((err) => {
-                console.log(err);
+            Axios.get("http://localhost:3001/admin-dashboard", {
+                headers: {
+                    'authorization': `${token}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => {
+                setAdminData(response.data);
+            })
+            .catch((err) => {
+                console.error(err);
             });
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }, []);
-    async function handleRemoveCookie() {
+    
+    const handleLogout = async () => {
         try {
-            var cookies = document.cookie;
-            await removeCookie(cookies);
+            await removeCookie('token');
             navigate("/admin-login");
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
-    }
-    return (
-        <>
-            <div className="Adminsidebar d-flex">
-                <div className="container d-flex flex-column align-items-center">
-                    <div>
-                        <img src={Logo} width="80" alt="" className="Adminlogo" />
-                    </div>
-                    <div className="adminMenu d-flex flex-column align-items-center my-3">
-                        <div>
-                            <h5>{adminData.Name}</h5>
-                        </div>
-                        {/* <div>
-                            <h6>
-                                {adminData.UserName}
-                            </h6>
-                        </div> */}
-                        {/* <input className="formbtn mt-1 mx-1  type="button" value="Student" /> */}
-                    </div>
-                    <div className="d-flex flex-column justify-content-center align-items-left">
-                        <Link to="/" target='_blank' className="Sidebarbtn justify-content-center text-white mt-2"><i className="fa-solid fa-globe"></i> Website</Link>
-                        <Link to="/dashboard/profile" className="Sidebarbtn justify-content-center text-white mt-2"><i className="fa-solid fa-user"></i> Profile</Link>
-                        <Link to="/dashboard/studentslist" className="Sidebarbtn justify-content-center text-white mt-2"><i className="fa-sharp fa-solid fa-graduation-cap"></i> Students</Link>
-                        <Link to="/dashboard/teacherslist" className="Sidebarbtn justify-content-center text-white mt-2"><i className="fa-sharp fa-solid fa-person-chalkboard"></i> Teachers</Link>
-                        <div className="dropdown nav-item">
-                            <div className="accordion" id="accordionExample">
-                                <div className="accordion-item">
-                                    <button className="accordion-button" type="button" data-bs-toggle="show" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <Link to="/dashboard/teacherslist" className="text-white"> <i className="fa-solid fa-people-group"></i> Charts
-                                        </Link>
-                                    </button>
-                                    {/* </h2> */}
-                                    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div className="accordion-body">
-                                            <Link className="dropdown-item" to="/line-chart">Line Chart</Link>
-                                            <Link className="dropdown-item" to="/bar-chart">Bar Chart</Link>
-                                            <Link className="dropdown-item" to="/stackedbar-chart">StackedBar Chart</Link>
-                                            <Link className="dropdown-item" to="/pie-chart">Pie Chart</Link>
-                                            <Link className="dropdown-item" to="/area-chart">Area Chart</Link>
-                                            <Link className="dropdown-item" to="/stackedarea-chart">StackedArea Chart</Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    };
 
-                        <Link to="/dashboard/library" className="Sidebarbtn justify-content-center text-white mt-2"><i className="fa-solid fa-book"></i> Library</Link>
-                        <div className="url d-flex justify-content-start align-items-left">
-                            <button className='btn Sidebarbtn text-white mt-2' onClick={handleRemoveCookie}><i className="fa-solid fa-right-from-bracket"></i> Logout</button>
-                        </div>
-                    </div>
-                </div>
+    return (
+        <div className="Adminsidebar d-flex flex-column align-items-center">
+            {/* Sidebar Header */}
+            <div className="sidebar-header text-center">
+                <img src={Logo} alt="Edu-Sync Logo" className="Adminlogo mb-3" />
+                <h5 className="admin-name">{adminData.Name || "Admin"}</h5>
             </div>
-        </>
+
+            {/* Navigation Menu */}
+            <nav className="sidebar-menu flex-grow-1">
+                <Link to="/" target="_blank" className="Sidebarbtn text-white">
+                    <i className="fa-solid fa-globe"></i> Website
+                </Link>
+                <Link to="/dashboard/profile" className="Sidebarbtn text-white">
+                    <i className="fa-solid fa-user"></i> Profile
+                </Link>
+                <Link to="/dashboard/studentslist" className="Sidebarbtn text-white">
+                    <i className="fa-solid fa-graduation-cap"></i> Students
+                </Link>
+                <Link to="/dashboard/teacherslist" className="Sidebarbtn text-white">
+                    <i className="fa-solid fa-person-chalkboard"></i> Teachers
+                </Link>
+                
+                {/* Charts Dropdown */}
+                <div className="dropdown w-100 ms-4">
+                    <button
+                        className="Sidebarbtn dropdown-toggle text-white"
+                        type="button"
+                        id="chartsDropdown"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i className="fa-solid fa-chart-pie"></i> Charts
+                    </button>
+                    <ul className="dropdown-menu">
+                        <li><Link to="/line-chart" className="dropdown-item">Line Chart</Link></li>
+                        <li><Link to="/bar-chart" className="dropdown-item">Bar Chart</Link></li>
+                        <li><Link to="/stackedbar-chart" className="dropdown-item">StackedBar Chart</Link></li>
+                        <li><Link to="/pie-chart" className="dropdown-item">Pie Chart</Link></li>
+                        <li><Link to="/area-chart" className="dropdown-item">Area Chart</Link></li>
+                        <li><Link to="/stackedarea-chart" className="dropdown-item">StackedArea Chart</Link></li>
+                    </ul>
+                </div>
+
+                <Link to="/dashboard/library" className="Sidebarbtn text-white">
+                    <i className="fa-solid fa-book"></i> Library
+                </Link>
+            </nav>
+
+            {/* Logout Button */}
+            <button className="Sidebarbtn logout-btn mt-3 text-white" onClick={handleLogout}>
+                <i className="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+        </div>
     );
 };
