@@ -10,7 +10,7 @@ const { Router } = require("express");
 const TasksModal = require("../models/Task");
 
 router.get("/", (req, res) => {
-  console.log("HEllo");
+  console.log("Hello");
   res.send("Hello World!");
 });
 router.put("/update-student", async (req, res) => {

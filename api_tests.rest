@@ -1,0 +1,37 @@
+### Root path / Introduction path
+GET http://localhost:3001/
+
+### Create a new user
+GET http://localhost:3001/api/users/create?username=talib&email=talib@email.com&password=talib
+GET http://localhost:3001/api/users/create?username=subhan&email=subhan@email.com&password=subhan
+GET http://localhost:3001/api/users/create?username=wasif&email=wasif@email.com&password=wasif
+
+### Duplicate user (same as already created)
+GET http://localhost:3001/api/users/create?username=majid&email=majid@email.com&password=majid
+
+### Read all users
+GET http://localhost:3001/api/users/all
+
+### Read a user by email
+GET http://localhost:3001/api/users/read?<email>
+
+### Update a user (username update)
+GET http://localhost:3001/api/users/update?<email>&username=<newUserName>&password=<newpassword>
+
+### Delete a user by email
+GET http://localhost:3001/api/users/delete?<email>
+
+### Verify user deletion (by checking all users)
+GET http://localhost:3001/api/users/all
+
+### Delete another user (talib)
+GET http://localhost:3001/api/users/delete?email=talib@email.com
+
+### Verify user deletion (by checking all users)
+GET http://localhost:3001/api/users/all
+
+### Delete another user (wasif)
+GET http://localhost:3001/api/users/delete?email=wasif@email.com
+
+### Verify user deletion (by checking all users)
+GET http://localhost:3001/api/users/all

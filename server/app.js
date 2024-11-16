@@ -1,29 +1,30 @@
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-const express = require('express');
+const dotenv = require("dotenv");
+const express = require("express");
 const app = express();
-const cors = require('cors');
-const fileupload = require('express-fileupload');
-const CookiesParser = require('cookie-parser');
+const cors = require("cors");
+const fileupload = require("express-fileupload");
+const CookiesParser = require("cookie-parser");
 const authRoutes = require("./routes/auth");
 const messageRoutes = require("./routes/messages");
+const userRoutes = require("./routes/userRoutes");
 const socket = require("socket.io");
 
 // Connect ENV File
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: "./config.env" });
 // Database connection with MongoDB Atlas
-require('./db/conn');
+require("./db/conn");
 // To Connect Frontend with Backend and Get Data in JSON format
 app.use(express.json());
 app.use(cors());
 app.use(CookiesParser());
-app.use(fileupload(
-    {
-        useTempFiles: true
-    }
-));
+app.use(
+  fileupload({
+    useTempFiles: true,
+  })
+);
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/users", userRoutes);
 
 // const corsOptions = {
 //     origin: true, //included origin as true
@@ -31,81 +32,82 @@ app.use("/api/messages", messageRoutes);
 // };
 // app.use(cors(corsOptions));
 
-
-
 // link the router files
-app.use(require('./router/auth'));
-
+app.use(require("./router/auth"));
+app._router.stack.forEach((middleware) => {
+  if (middleware.route) {
+    console.log(middleware.route.path);
+  }
+});
 
 // Define the port of the server
 // const PORT = process.env.PORT;
 // app.listen(PORT);
 const server = app.listen(process.env.PORT, () =>
-    console.log(`Server started on ${process.env.PORT}`)
+  console.log(`Server started on ${process.env.PORT}`)
 );
 const io = socket(server, {
-    cors: {
-        origin: "http://localhost:3000",
-        credentials: true,
-    },
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
 });
 
 global.onlineUsers = new Map();
 io.on("connection", (socket) => {
-    global.chatSocket = socket;
-    socket.on("add-user", (userId) => {
-        onlineUsers.set(userId, socket.id);
-    });
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
 
-    socket.on("send-msg", (data) => {
-        const sendUserSocket = onlineUsers.get(data.to);
-        if (sendUserSocket) {
-            socket.to(sendUserSocket).emit("msg-recieve", data.msg);
-        }
-    });
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+    }
+  });
 });
-
 
 const emailToSocketMappping = new Map();
 const socketToEmailMapping = new Map();
 
 io.on("connection", (socket) => {
-    socket.on("join-room", (data) => {
-        console.log("new connection");
-        const { roomId, emailId } = data;
-        console.log("user", emailId, "joined room", roomId);
-        emailToSocketMappping.set(emailId, socket.id);
-        socketToEmailMapping.set(socket.id, emailId);
-        console.log(
-            emailToSocketMappping, 'emailToSocketMappping',
-            socketToEmailMapping, "socketToEmailMapping"
-        );
-        socket.join(roomId);
-        socket.emit("joined-room", { roomId });
-        socket.broadcast.to(roomId).emit("user-joined", { emailId });
-    });
+  socket.on("join-room", (data) => {
+    console.log("new connection");
+    const { roomId, emailId } = data;
+    console.log("user", emailId, "joined room", roomId);
+    emailToSocketMappping.set(emailId, socket.id);
+    socketToEmailMapping.set(socket.id, emailId);
+    console.log(
+      emailToSocketMappping,
+      "emailToSocketMappping",
+      socketToEmailMapping,
+      "socketToEmailMapping"
+    );
+    socket.join(roomId);
+    socket.emit("joined-room", { roomId });
+    socket.broadcast.to(roomId).emit("user-joined", { emailId });
+  });
 
-    socket.on("call-user", (data) => {
-        console.log("call");
-        const { emailId, offer } = data;
-        const fromEmail = socketToEmailMapping.get(socket.id);
-        // console.log(fromEmail, 'fromEmail');
-        // console.log(socket.id, 'socket id');
-        // console.log(offer);
-        const socketId = emailToSocketMappping.get(emailId);
-        console.log(socketId, 'socket id mapping');
-        console.log(fromEmail, 'email mapping');
-        socket.to(socketId).emit("incomming-call", { from: fromEmail, offer });
-    });
+  socket.on("call-user", (data) => {
+    console.log("call");
+    const { emailId, offer } = data;
+    const fromEmail = socketToEmailMapping.get(socket.id);
+    // console.log(fromEmail, 'fromEmail');
+    // console.log(socket.id, 'socket id');
+    // console.log(offer);
+    const socketId = emailToSocketMappping.get(emailId);
+    console.log(socketId, "socket id mapping");
+    console.log(fromEmail, "email mapping");
+    socket.to(socketId).emit("incomming-call", { from: fromEmail, offer });
+  });
 
-    socket.on("call-accepted", (data) => {
-
-        console.log('call accepted data', data);
-        const { emailId, ans } = data;
-        const socketId = emailToSocketMappping.get(emailId);
-        socket.to(socketId).emit("call-accepted", { ans });
-    });
-
+  socket.on("call-accepted", (data) => {
+    console.log("call accepted data", data);
+    const { emailId, ans } = data;
+    const socketId = emailToSocketMappping.get(emailId);
+    socket.to(socketId).emit("call-accepted", { ans });
+  });
 });
 
 io.listen(8001);
