@@ -1,0 +1,55 @@
+/* Sidebar */
+.Adminsidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+}
+
+.Sidebarbtn {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
+.Sidebarbtn:hover {
+    background-color: #555;
+}
+
+/* Student File */
+.studentFile {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.dashboardImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .Adminsidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .studentFile {
+        margin: 0;
+        padding: 10px;
+    }
+
+    .table th, .table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}

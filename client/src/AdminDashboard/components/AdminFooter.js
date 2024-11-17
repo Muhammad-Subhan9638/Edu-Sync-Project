@@ -6,7 +6,7 @@ export const AdminFooter = () => {
     return (
         <div
             className="text-center text-white bg-dark p-4 Afooter">
-            © 2023 Copyright:
+            © 2024 Copyright:
             <Link className="text-reset fw-bold" to="/">
             Edu-Sync.com
             </Link>
