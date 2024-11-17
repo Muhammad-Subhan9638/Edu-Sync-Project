@@ -216,7 +216,7 @@ const TeacherRegistration = () => {
                     </div>
                 </div>
             </div>
-            <AdminFooter />
+            {/* <AdminFooter /> */}
         </>
     )
 }

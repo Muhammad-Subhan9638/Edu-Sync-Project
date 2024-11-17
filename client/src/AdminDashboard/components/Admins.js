@@ -192,7 +192,7 @@ const Admins = () => {
                     </div>
                 </div>
             </div>
-            <AdminFooter />
+            {/* <AdminFooter /> */}
         </>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../../images/Edu-Sync.png';
 import { useCookies } from "react-cookie";
 import Axios from 'axios';
@@ -11,6 +11,7 @@ export const Sidebar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Toggle state for the sidebar
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const location = useLocation(); // Access the current route
 
     useEffect(() => {
         try {
@@ -43,19 +44,26 @@ export const Sidebar = () => {
         }
     };
 
+    // List of routes where the hamburger menu should NOT be shown
+    const noHamburgerRoutes = ['/dashboard'];
+
+    const isHamburgerVisible = !noHamburgerRoutes.includes(location.pathname);
+
     return (
         <>
             {/* Hamburger Menu */}
-            <button
-                className="hamburger-menu"
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                aria-label="Toggle sidebar"
-            >
-                <i className="fa-solid fa-bars"></i>
-            </button>
+            {isHamburgerVisible && (
+                <button
+                    className="hamburger-menu"
+                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                    aria-label="Toggle sidebar"
+                >
+                    <i className="fa-solid fa-bars"></i>
+                </button>
+            )}
 
             {/* Sidebar */}
-            <div className={`Adminsidebar ${isSidebarOpen ? 'open' : ''}`}>
+            <div className={`Adminsidebar ${isSidebarOpen || !isHamburgerVisible ? 'open' : ''}`}>
                 {/* Sidebar Header */}
                 <div className="sidebar-header text-center">
                     <img src={Logo} alt="Edu-Sync Logo" className="Adminlogo mb-3" />

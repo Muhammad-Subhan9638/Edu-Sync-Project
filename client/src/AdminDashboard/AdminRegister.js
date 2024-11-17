@@ -145,7 +145,7 @@ const AdminRegister = () => {
                     </div>
                 </div>
             </div>
-            <AdminFooter />
+            {/* <AdminFooter /> */}
         </>
     );
 };

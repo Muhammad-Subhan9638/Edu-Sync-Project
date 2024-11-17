@@ -2,20 +2,21 @@
 .Adminsidebar {
     width: 250px;
     height: 100vh;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: linear-gradient(135deg, #007bff, #6c757d);
     color: white;
     display: flex;
     flex-direction: column;
     position: fixed;
     left: -250px; /* Hidden by default */
     top: 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    transition: left 0.3s ease;
+    transition: left 0.3s ease, box-shadow 0.3s ease;
 }
 
 .Adminsidebar.open {
     left: 0; /* Visible when open */
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Hamburger Menu */
@@ -24,38 +25,45 @@
     top: 20px;
     left: 20px;
     z-index: 1100;
-    background: #6a11cb;
+    background: #007bff;
     border: none;
     border-radius: 5px;
     padding: 10px 15px;
     color: white;
     cursor: pointer;
     font-size: 1.2rem;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .hamburger-menu:hover {
-    background: #2575fc;
+    background: #6c757d;
+    transform: scale(1.05);
 }
 
 /* Sidebar Header */
 .sidebar-header {
     text-align: center;
-    padding: 20px 0;
+    padding: 30px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .Adminlogo {
-    width: 100px;
+    width: 120px;
     height: auto;
-    border-radius: 10px;
+    border-radius: 50%;
     margin-bottom: 10px;
+    border: 3px solid white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .admin-name {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: bold;
     margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Sidebar Menu */
@@ -70,28 +78,33 @@
 .Sidebarbtn {
     width: 90%;
     text-align: left;
-    padding: 12px 15px;
-    margin: 10px 0;
+    padding: 15px 20px;
+    margin: 12px 0;
     font-size: 1rem;
-    border-radius: 5px;
+    font-weight: bold;
+    border-radius: 30px;
     color: #fff;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     text-decoration: none;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .Sidebarbtn i {
-    margin-right: 10px;
-    font-size: 1.2rem;
+    margin-right: 12px;
+    font-size: 1.5rem;
+    color: #ffffff;
 }
 
 .Sidebarbtn:hover,
 .Sidebarbtn:focus {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(10px);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Dropdown Menu */
@@ -99,15 +112,20 @@
     background: rgba(255, 255, 255, 0.1);
     border: none;
     box-shadow: none;
+    margin-top: 0;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .dropdown-item {
     color: white !important;
-    padding: 10px;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
 }
 
 .dropdown-item:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* Logout Button */
@@ -118,10 +136,16 @@
     background: #ff4d4d;
     color: white;
     font-weight: bold;
+    padding: 12px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
 }
 
 .logout-btn:hover {
     background: #e63939;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsive Design */
@@ -132,5 +156,9 @@
     .hamburger-menu {
         font-size: 1rem;
         padding: 8px 10px;
+    }
+    .Sidebarbtn {
+        font-size: 0.9rem;
+        padding: 10px 15px;
     }
 }

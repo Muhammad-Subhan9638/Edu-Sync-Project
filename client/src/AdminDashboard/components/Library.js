@@ -131,7 +131,7 @@ const Library = () => {
                     </div>
                 </div>
             </div >
-            <AdminFooter />
+            {/* <AdminFooter /> */}
         </>
     )
 }

@@ -2,11 +2,12 @@
 .Adminsidebar {
     width: 250px;
     height: 100vh;
-    background-color: #333;
+    background: linear-gradient(135deg, #007bff, #6c757d); /* Gradient background */
     position: fixed;
     top: 0;
     left: 0;
     padding-top: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow to the sidebar */
 }
 
 .Sidebarbtn {
@@ -16,6 +17,7 @@
     text-decoration: none;
     margin: 5px 0;
     transition: background-color 0.3s;
+    border-radius: 5px; /* Optional: rounded corners for buttons */
 }
 
 .Sidebarbtn:hover {
@@ -26,6 +28,9 @@
 .studentFile {
     margin-left: 250px;
     padding: 20px;
+    background-color: #f8f9fa; /* Light background for student file section */
+    border-radius: 8px; /* Optional: rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
 }
 
 .dashboardImg {
@@ -33,6 +38,21 @@
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+/* Enhancing Buttons */
+.Sidebarbtn, .formbtn {
+    background-color: #007bff; /* Primary button color */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.Sidebarbtn:hover, .formbtn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
 }
 
 /* Responsiveness */
@@ -46,6 +66,7 @@
     .studentFile {
         margin: 0;
         padding: 10px;
+        background-color: #f8f9fa;
     }
 
     .table th, .table td {
