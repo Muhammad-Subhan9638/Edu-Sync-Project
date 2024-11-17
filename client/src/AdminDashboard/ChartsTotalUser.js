@@ -8,7 +8,7 @@ const ChartsTotalUser = () => {
             <div className='d-flex'>
                 <Sidebar />
                 <div className='container'>
-                    Hellow world!
+                    Hello world!
                 </div>
             </div>
             <AdminFooter />
