@@ -1,66 +1,52 @@
-/* Dashboard.css */
-
 .dashboard-content {
-    margin-left: 250px; /* Adjust if your sidebar width is different */
-    padding: 20px;
-    background-color: #f8f9fa;
-    min-height: 100vh;
+  /* Adjusted to work with larger screens */
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
 }
 
 .welcome-section {
-    background: linear-gradient(135deg, #007bff, #6c757d);
-    color: #fff;
-    padding: 50px 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.welcome-title {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-}
-
-.welcome-message {
-    font-size: 1.25rem;
-    margin-bottom: 30px;
+  background: linear-gradient(135deg, #007bff, #6c757d);
+  color: #fff;
+  padding: 50px 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-widgets {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
 .widget {
-    background-color: #fff;
-    color: #212529;
-    border-radius: 8px;
-    padding: 20px;
-    width: 250px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+  color: #212529;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%; /* Full width by default */
+  max-width: 250px; /* Limits width on larger screens */
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.widget:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.widget i {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: #007bff;
-}
-
-.widget h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.widget p {
-    font-size: 1rem;
-    color: #6c757d;
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 0;
+    padding: 15px;
+  }
+  .Adminsidebar {
+    left: -250px; /* Sidebar is hidden on smaller screens */
+  }
+  .Adminsidebar.open {
+    left: 0;
+  }
+  .widget {
+    max-width: 100%;
+  }
 }

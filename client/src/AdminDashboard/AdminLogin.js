@@ -4,7 +4,6 @@ import Axios from "axios";
 import { CookieFunction } from "../helpers/index";
 import dummyProfile from "../assets/dummyprofile.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "../AdminDashboard/AdminLogin.css";
 
 const AdminLogin = () => {
@@ -45,7 +44,10 @@ const AdminLogin = () => {
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4 shadow-lg w-100" style={{ maxWidth: "400px" }}>
+      <div
+        className="card p-4 shadow-lg w-100"
+        style={{ maxWidth: "400px", borderRadius: "15px" }}
+      >
         <div className="text-center">
           <img
             src={dummyProfile}
@@ -56,56 +58,47 @@ const AdminLogin = () => {
           <h3 className="mb-4">Admin Login</h3>
         </div>
         <form onSubmit={LoginAdmin}>
-          <div className="mb-3">
+          <div className="custom-input-container mb-3">
             <label htmlFor="username" className="form-label">
               Username
             </label>
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="input-group">
-                <span className="input-group-text bg-light text-dark">
-                  <i className="fas fa-user"></i>
-                </span>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="username"
-                  placeholder="Enter Username"
-                  value={AdminData.UserName}
-                  name="UserName"
-                  onChange={handleChange}
-                />
-              </div>
+            <div className="custom-input-wrapper">
+              <input
+                type="text"
+                id="username"
+                className="custom-input"
+                placeholder="Enter Username"
+                value={AdminData.UserName}
+                name="UserName"
+                onChange={handleChange}
+              />
+              <i className="fas fa-user custom-icon"></i>
             </div>
           </div>
-          <div className="mb-3">
+          <div className="custom-input-container mb-3">
             <label htmlFor="password" className="form-label">
               Password
             </label>
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="input-group">
-                <span className="input-group-text bg-light text-dark">
-                  <i className="fas fa-lock"></i>
-                </span>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="form-control"
-                  id="password"
-                  placeholder="Enter Password"
-                  value={AdminData.Password}
-                  name="Password"
-                  onChange={handleChange}
-                />
-                <span
-                  className="input-group-text bg-light text-dark"
-                  onClick={togglePasswordVisibility}
-                  style={{ cursor: "pointer" }}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
-              </div>
+            <div className="custom-input-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                className="custom-input"
+                placeholder="Enter Password"
+                value={AdminData.Password}
+                name="Password"
+                onChange={handleChange}
+              />
+              <span
+                className="password-icon"
+                onClick={togglePasswordVisibility}
+                style={{ cursor: "pointer" }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary w-100">
+          <button type="submit" className="w-100 loginButton">
             Login
           </button>
         </form>

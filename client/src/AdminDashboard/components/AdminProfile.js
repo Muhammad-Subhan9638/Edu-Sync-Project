@@ -98,7 +98,9 @@ export const AdminProfile = () => {
           })
           .catch((error) => {
             console.error(error);
-            window.alert("An error occurred while updating the profile picture.");
+            window.alert(
+              "An error occurred while updating the profile picture."
+            );
           });
       } catch (e) {
         console.error(e);
@@ -119,7 +121,10 @@ export const AdminProfile = () => {
 
   return (
     <>
-      <div className="d-flex" style={{ background: "linear-gradient(135deg, #007bff, #6c757d)" }}>
+      <div
+        className="d-flex"
+        style={{ background: "linear-gradient(135deg, #007bff, #6c757d)" }}
+      >
         <Sidebar />
         <div className="container d-flex flex-column mt-5">
           <div>
@@ -133,7 +138,12 @@ export const AdminProfile = () => {
                   <label htmlFor="files" className="btn">
                     Edit
                   </label>
-                  <input type="submit" value="Save" onClick={save} id="savebtn" />
+                  <input
+                    type="submit"
+                    value="Save"
+                    onClick={save}
+                    id="savebtn"
+                  />
                   <input
                     id="files"
                     style={styleinput}
@@ -210,7 +220,9 @@ export const AdminProfile = () => {
                       className="form-control mt-1"
                       placeholder="Password"
                       value={UpdatedPassword}
-                      onChange={(event) => setUpdatedPassword(event.target.value)}
+                      onChange={(event) =>
+                        setUpdatedPassword(event.target.value)
+                      }
                     />
                   </div>
                 </div>
@@ -232,7 +244,9 @@ export const AdminProfile = () => {
                       className="form-control mt-1"
                       placeholder="Confirm Password"
                       value={UpdatedcPassword}
-                      onChange={(event) => setUpdatedcPassword(event.target.value)}
+                      onChange={(event) =>
+                        setUpdatedcPassword(event.target.value)
+                      }
                     />
                   </div>
                 </div>

@@ -4,22 +4,45 @@
 
 .form-label {
   font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
 }
 
-.input-group-text {
-  height: auto; /* Ensure flexibility for varying field sizes */
-  padding: 0 12px !important; /* Reduced padding */
+.custom-input-container {
+  margin-bottom: 15px;
+}
+
+.custom-input-wrapper {
+  display: flex;
+  align-items: center;
   border: 1px solid #198f99;
-  border-right: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  position: relative;
 }
 
-.input-group .form-control {
-  border: 1px solid #198f99;
+.custom-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px;
 }
 
-.input-group .form-control:focus {
-  border-color: #198f99;
-  box-shadow: 0 0 5px rgba(25, 143, 153, 0.5);
+.custom-input:focus {
+  border: none;
+  outline: none;
+}
+
+.custom-icon,
+.password-icon {
+  color: #198f99;
+  margin-left: 8px;
+}
+
+.password-icon {
+  position: absolute;
+  right: 10px;
+  color: #198f99;
 }
 
 .loginButton {
