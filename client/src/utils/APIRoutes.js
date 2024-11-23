@@ -1,4 +1,4 @@
-export const host = "http://localhost:3001";
+export const host = process.env.REACT_APP_HOST;
 export const loginRoute = `${host}/api/auth/login`;
 export const allTeacherRoute = `${host}/all-teachers`;
 export const allStudentRoute = `${host}/all-students`;
