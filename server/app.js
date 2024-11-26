@@ -11,44 +11,44 @@ const socket = require("socket.io");
 
 // Connect ENV File
 dotenv.config({ path: "./config.env" });
-
 // Database connection with MongoDB Atlas
 require("./db/conn");
-
-// CORS Configuration
-const allowedOrigins = [
-  process.env.FRONTEND_URL_LOCAL,
-  process.env.FRONTEND_URL_PROD,
-];
-const corsOptions = {
-  origin: allowedOrigins,
-  credentials: true,
-};
-app.use(cors(corsOptions));
-
-// Middleware
+// To Connect Frontend with Backend and Get Data in JSON format
 app.use(express.json());
+app.use(cors());
 app.use(CookiesParser());
 app.use(
   fileupload({
     useTempFiles: true,
   })
 );
-
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 
-// Start Server
+// const corsOptions = {
+//     origin: true, //included origin as true
+//     credentials: true, //included credentials as true
+// };
+// app.use(cors(corsOptions));
+
+// link the router files
+app.use(require("./router/auth"));
+app._router.stack.forEach((middleware) => {
+  if (middleware.route) {
+    console.log(middleware.route.path);
+  }
+});
+
+// Define the port of the server
+// const PORT = process.env.PORT;
+// app.listen(PORT);
 const server = app.listen(process.env.PORT, () =>
   console.log(`Server started on ${process.env.PORT}`)
 );
-
-// Socket.IO Setup
 const io = socket(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: "http://localhost:3000",
     credentials: true,
   },
 });
@@ -60,11 +60,13 @@ const socketToEmailMapping = new Map();
 io.on("connection", (socket) => {
   console.log("New client connected:", socket.id);
 
+  // Handle user addition
   socket.on("add-user", (userId) => {
     onlineUsers.set(userId, socket.id);
     console.log("User added:", userId, "Socket ID:", socket.id);
   });
 
+  // Handle sending messages
   socket.on("send-msg", (data) => {
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
@@ -74,6 +76,7 @@ io.on("connection", (socket) => {
     }
   });
 
+  // Handle room joining
   socket.on("join-room", (data) => {
     const { roomId, emailId } = data;
     emailToSocketMapping.set(emailId, socket.id);
@@ -83,6 +86,7 @@ io.on("connection", (socket) => {
     socket.broadcast.to(roomId).emit("user-joined", { emailId });
   });
 
+  // Handle calls
   socket.on("call-user", (data) => {
     const { emailId, offer } = data;
     const fromEmail = socketToEmailMapping.get(socket.id);
@@ -102,6 +106,7 @@ io.on("connection", (socket) => {
     }
   });
 
+  // Handle disconnections
   socket.on("disconnect", () => {
     console.log("Client disconnected:", socket.id);
     const emailId = socketToEmailMapping.get(socket.id);
