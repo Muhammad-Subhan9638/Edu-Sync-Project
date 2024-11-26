@@ -5,95 +5,97 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
 import { BrowserCookie } from "../helpers/BrowserCookies";
+
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [ChatPersonData, setChatPersonData] = useState({});
+  const [chatPersonData, setChatPersonData] = useState({});
+  const UserToken = BrowserCookie();
+  const token = UserToken.UserToken;
+
+  // Fetch user profile and chat messages
   useEffect(() => {
-
-
-    const First_Funct = async () => {
-
-
-
-
-
+    const fetchProfileData = async () => {
       try {
-        const UserToken = BrowserCookie()
-        const token = UserToken.UserToken;
-        axios.get("http://localhost:3001/my-profile",
-          {
-            headers: {
-              'authorization': `${token}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          }
-        ).then((response) => {
-          let Data = response.data;
-          setChatPersonData(Data)
-        }).catch((err) => {
-          console.log(err)
-        })
+        const response = await axios.get("http://localhost:3001/my-profile", {
+          headers: {
+            authorization: `${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        setChatPersonData(response.data);
       } catch (err) {
-        console.log(err);
-      }
-
-
-
-
-
-      const response = await axios.post(recieveMessageRoute, {
-        from: ChatPersonData._id,
-        to: currentChat._id,
-      });
-      setMessages(response.data);
-    }
-    First_Funct()
-
-
-
-  }, [currentChat]);
-
-  useEffect(() => {
-    const getCurrentChat = async () => {
-      if (currentChat) {
-        await currentChat._id;
+        console.error("Error fetching profile data:", err);
       }
     };
-    getCurrentChat();
-  }, [currentChat]);
 
+    fetchProfileData();
+  }, [token]);
+
+  // Fetch messages for current chat
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (!currentChat._id) return;
+      try {
+        const response = await axios.post(recieveMessageRoute, {
+          from: chatPersonData._id,
+          to: currentChat._id,
+        });
+        setMessages(response.data);
+      } catch (err) {
+        console.error("Error fetching messages:", err);
+      }
+    };
+
+    fetchMessages();
+  }, [currentChat, chatPersonData._id]);
+
+  // Send message
   const handleSendMsg = async (msg) => {
     socket.current.emit("send-msg", {
       to: currentChat._id,
-      from: ChatPersonData._id,
+      from: chatPersonData._id,
       msg,
     });
-    await axios.post(sendMessageRoute, {
-      from: ChatPersonData._id,
-      to: currentChat._id,
-      message: msg,
-    });
 
-    const msgs = [...messages];
-    msgs.push({ fromSelf: true, message: msg });
-    setMessages(msgs);
+    try {
+      await axios.post(sendMessageRoute, {
+        from: chatPersonData._id,
+        to: currentChat._id,
+        message: msg,
+      });
+
+      const newMessages = [...messages, { fromSelf: true, message: msg }];
+      setMessages(newMessages);
+    } catch (err) {
+      console.error("Error sending message:", err);
+    }
   };
 
+  // Listen for incoming messages
   useEffect(() => {
-    if (socket.current) {
-      socket.current.on("msg-recieve", (msg) => {
-        setArrivalMessage({ fromSelf: false, message: msg });
-      });
-    }
+    if (!socket.current) return;
+
+    socket.current.on("msg-recieve", (msg) => {
+      setArrivalMessage({ fromSelf: false, message: msg });
+    });
+
+    // Cleanup socket listener
+    return () => {
+      socket.current.off("msg-recieve");
+    };
   }, []);
 
+  // Add incoming message to message state
   useEffect(() => {
-    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
+    if (arrivalMessage) {
+      setMessages((prev) => [...prev, arrivalMessage]);
+    }
   }, [arrivalMessage]);
 
+  // Scroll to the latest message
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -102,27 +104,23 @@ export default function ChatContainer({ currentChat, socket }) {
     <Container>
       <div className="chat-header">
         <div className="user-details">
-
           <div className="username">
             <h3>{currentChat.username}</h3>
           </div>
         </div>
       </div>
       <div className="chat-messages">
-        {messages.map((message) => {
-          return (
-            <div ref={scrollRef} key={uuidv4()}>
-              <div
-                className={`message ${message.fromSelf ? "sended" : "recieved"
-                  }`}
-              >
-                <div className="content ">
-                  <p>{message.message}</p>
-                </div>
+        {messages.map((message) => (
+          <div ref={scrollRef} key={message._id || uuidv4()}>
+            <div
+              className={`message ${message.fromSelf ? "sended" : "recieved"}`}
+            >
+              <div className="content">
+                <p>{message.message}</p>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
       <ChatInput handleSendMsg={handleSendMsg} />
     </Container>
@@ -146,7 +144,6 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       gap: 1rem;
-    
       .username {
         h3 {
           color: white;

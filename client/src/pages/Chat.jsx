@@ -9,8 +9,6 @@ import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import { BrowserCookie } from "../helpers/BrowserCookies";
 
-
-
 export default function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
@@ -18,45 +16,31 @@ export default function Chat() {
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
 
-
-
   useEffect(() => {
-    const First_Funct = async () => {
-
-      const UserToken = BrowserCookie()
-      const token = UserToken.UserToken;
-
-      if (!token) {
+    const fetchUserData = async () => {
+      const { UserToken } = BrowserCookie();
+      if (!UserToken) {
         navigate("/login");
-      } else {
-
-
-        try {
-          const UserToken = BrowserCookie()
-          const token = UserToken.UserToken;
-          Axios.get("http://localhost:3001/my-profile",
-            {
-              headers: {
-                'authorization': `${token}`,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              }
-            }
-          ).then((response) => {
-            let Data = response.data;
-            setCurrentUser(Data)
-
-          }).catch((err) => {
-            console.log(err)
-          })
-        } catch (err) {
-          console.log(err);
-        }
-
+        return;
       }
-    }
-    First_Funct()
-  }, []);
+
+      try {
+        const response = await Axios.get("http://localhost:3001/my-profile", {
+          headers: {
+            authorization: `Bearer ${UserToken}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        const data = response.data;
+        setCurrentUser(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchUserData();
+  }, [navigate]);
+
   useEffect(() => {
     if (currentUser) {
       socket.current = io(host);
@@ -65,75 +49,66 @@ export default function Chat() {
   }, [currentUser]);
 
   useEffect(() => {
-
-
-
-
-
-
-    const addUser = async () => {
-
+    const fetchContacts = async () => {
+      const { UserToken } = BrowserCookie();
+      if (!UserToken) return;
 
       try {
-        const UserToken = BrowserCookie()
-        const token = UserToken.UserToken;
-        Axios.get("http://localhost:3001/my-profile",
-          {
-            headers: {
-              'authorization': `${token}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          }
-        ).then((response) => {
-          let Data = response.data;
-          if (Data.OnlineTeachingExperience) {
-            getStudentsList()
-          } else if (Data.StudentClass) {
-            getTeachersList()
-          }
+        const response = await Axios.get("http://localhost:3001/my-profile", {
+          headers: {
+            authorization: `Bearer ${UserToken}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
 
-
-
-
-        }).catch((err) => {
-          console.log(err)
-        })
+        const data = response.data;
+        if (data.OnlineTeachingExperience) {
+          getStudentsList();
+        } else if (data.StudentClass) {
+          getTeachersList();
+        }
       } catch (err) {
         console.log(err);
       }
-
-    }
+    };
 
     const getTeachersList = async () => {
-      const data = await Axios.get(`${allTeacherRoute}`);
-      setContacts(data.data);
-    }
+      try {
+        const data = await Axios.get(`${allTeacherRoute}`);
+        setContacts(data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     const getStudentsList = async () => {
-      const data = await Axios.get(`${allStudentRoute}`);
-      setContacts(data.data);
-    }
+      try {
+        const data = await Axios.get(`${allStudentRoute}`);
+        setContacts(data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-
-    addUser()
-
+    fetchContacts();
   }, [currentUser]);
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
+
   return (
-    <>
-      <Container>
-        <div className="container">
-          <Contacts contacts={contacts} changeChat={handleChatChange} />
-          {currentChat === undefined ? (
-            <Welcome />
-          ) : (
-            <ChatContainer currentChat={currentChat} socket={socket} />
-          )}
-        </div>
-      </Container>
-    </>
+    <Container>
+      <div className="container">
+        <Contacts contacts={contacts} changeChat={handleChatChange} />
+        {currentChat === undefined ? (
+          <Welcome />
+        ) : (
+          <ChatContainer currentChat={currentChat} socket={socket} />
+        )}
+      </div>
+    </Container>
   );
 }
 

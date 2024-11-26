@@ -53,61 +53,73 @@ const io = socket(server, {
   },
 });
 
-global.onlineUsers = new Map();
+const onlineUsers = new Map();
+const emailToSocketMapping = new Map();
+const socketToEmailMapping = new Map();
+
 io.on("connection", (socket) => {
-  global.chatSocket = socket;
+  console.log("New client connected:", socket.id);
+
+  // Handle user addition
   socket.on("add-user", (userId) => {
     onlineUsers.set(userId, socket.id);
+    console.log("User added:", userId, "Socket ID:", socket.id);
   });
 
+  // Handle sending messages
   socket.on("send-msg", (data) => {
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+    } else {
+      console.log("User not online:", data.to);
     }
   });
-});
 
-const emailToSocketMappping = new Map();
-const socketToEmailMapping = new Map();
-
-io.on("connection", (socket) => {
+  // Handle room joining
   socket.on("join-room", (data) => {
-    console.log("new connection");
     const { roomId, emailId } = data;
-    console.log("user", emailId, "joined room", roomId);
-    emailToSocketMappping.set(emailId, socket.id);
+    emailToSocketMapping.set(emailId, socket.id);
     socketToEmailMapping.set(socket.id, emailId);
-    console.log(
-      emailToSocketMappping,
-      "emailToSocketMappping",
-      socketToEmailMapping,
-      "socketToEmailMapping"
-    );
     socket.join(roomId);
     socket.emit("joined-room", { roomId });
     socket.broadcast.to(roomId).emit("user-joined", { emailId });
   });
 
+  // Handle calls
   socket.on("call-user", (data) => {
-    console.log("call");
     const { emailId, offer } = data;
     const fromEmail = socketToEmailMapping.get(socket.id);
-    // console.log(fromEmail, 'fromEmail');
-    // console.log(socket.id, 'socket id');
-    // console.log(offer);
-    const socketId = emailToSocketMappping.get(emailId);
-    console.log(socketId, "socket id mapping");
-    console.log(fromEmail, "email mapping");
-    socket.to(socketId).emit("incomming-call", { from: fromEmail, offer });
+    const socketId = emailToSocketMapping.get(emailId);
+    if (socketId) {
+      socket.to(socketId).emit("incomming-call", { from: fromEmail, offer });
+    } else {
+      console.log("User not available for call:", emailId);
+    }
   });
 
   socket.on("call-accepted", (data) => {
-    console.log("call accepted data", data);
     const { emailId, ans } = data;
-    const socketId = emailToSocketMappping.get(emailId);
-    socket.to(socketId).emit("call-accepted", { ans });
+    const socketId = emailToSocketMapping.get(emailId);
+    if (socketId) {
+      socket.to(socketId).emit("call-accepted", { ans });
+    }
+  });
+
+  // Handle disconnections
+  socket.on("disconnect", () => {
+    console.log("Client disconnected:", socket.id);
+    const emailId = socketToEmailMapping.get(socket.id);
+    if (emailId) {
+      emailToSocketMapping.delete(emailId);
+      socketToEmailMapping.delete(socket.id);
+    }
+
+    for (const [userId, socketId] of onlineUsers.entries()) {
+      if (socketId === socket.id) {
+        onlineUsers.delete(userId);
+        break;
+      }
+    }
   });
 });
-
-io.listen(8001);
