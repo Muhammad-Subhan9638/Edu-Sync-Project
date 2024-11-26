@@ -5,7 +5,6 @@ import { CookieFunction } from "../helpers/index";
 import dummyProfile from "../assets/dummyprofile.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../AdminDashboard/AdminLogin.css";
-import { host } from "../utils/APIRoutes";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       const response = await Axios.post(
-        `${host}/admin-login`,
+        "http://localhost:3001/admin-login",
         AdminData
       );
       if (response.status === 200) {
