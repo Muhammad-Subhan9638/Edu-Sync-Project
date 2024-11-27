@@ -1,9 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const DB = process.env.DATABASE
-mongoose.connect(DB).then(() => {
-    console.log('Connected to mongodb server');
-}).catch((err) => {
-    console.log(err);
-    console.log('Failed to connect to mongodb server');
-}); 
+mongoose.set("strictQuery", false);
+
+mongoose
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to mongodb server"))
+  .catch((error) => console.error("Error connecting to mongodb:", error));
