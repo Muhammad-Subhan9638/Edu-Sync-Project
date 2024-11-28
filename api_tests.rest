@@ -1,37 +1,42 @@
 ### Root path / Introduction path
-GET http://localhost:3001/
+GET https://edusync-fyp-server.vercel.app/
 
 ### Create a new user
-GET http://localhost:3001/api/users/create?username=talib&email=talib@email.com&password=talib
-GET http://localhost:3001/api/users/create?username=subhan&email=subhan@email.com&password=subhan
-GET http://localhost:3001/api/users/create?username=wasif&email=wasif@email.com&password=wasif
+GET https://edusync-fyp-server.vercel.app/api/users/create?username=talib&email=talib@email.com&password=talib
+GET https://edusync-fyp-server.vercel.app/api/users/create?username=subhan&email=subhan@email.com&password=subhan
+GET https://edusync-fyp-server.vercel.app/api/users/create?username=wasif&email=wasif@email.com&password=wasif
+
 
 ### Duplicate user (same as already created)
-GET http://localhost:3001/api/users/create?username=majid&email=majid@email.com&password=majid
+GET https://edusync-fyp-server.vercel.app/api/users/create?username=wasif&email=wasif@email.com&password=wasif
 
 ### Read all users
-GET http://localhost:3001/api/users/all
+GET https://edusync-fyp-server.vercel.app/api/users/all
+
 
 ### Read a user by email
-GET http://localhost:3001/api/users/read?<email>
+GET https://edusync-fyp-server.vercel.app/api/users/read?email=subhan@email.com
+
 
 ### Update a user (username update)
-GET http://localhost:3001/api/users/update?<email>&username=<newUserName>&password=<newpassword>
+GET https://edusync-fyp-server.vercel.app/api/users/update?email=talib@email.com&username=talibabbas&password=talib
 
-### Delete a user by email
-GET http://localhost:3001/api/users/delete?<email>
+
+### Delete a user by email (subhan)
+GET https://edusync-fyp-server.vercel.app/api/users/delete?email=subhan@email.com
+
 
 ### Verify user deletion (by checking all users)
-GET http://localhost:3001/api/users/all
+GET https://edusync-fyp-server.vercel.app/api/users/all
 
 ### Delete another user (talib)
-GET http://localhost:3001/api/users/delete?email=talib@email.com
+GET https://edusync-fyp-server.vercel.app/api/users/delete?email=talib@email.com
 
 ### Verify user deletion (by checking all users)
-GET http://localhost:3001/api/users/all
+GET https://edusync-fyp-server.vercel.app/api/users/all
 
 ### Delete another user (wasif)
-GET http://localhost:3001/api/users/delete?email=wasif@email.com
+GET https://edusync-fyp-server.vercel.app/api/users/delete?email=wasif@email.com
 
 ### Verify user deletion (by checking all users)
-GET http://localhost:3001/api/users/all
+GET https://edusync-fyp-server.vercel.app/api/users/all

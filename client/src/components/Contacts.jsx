@@ -3,76 +3,85 @@ import styled from "styled-components";
 import Logo from "../images/Edu-Sync.png";
 import { BrowserCookie } from "../helpers/BrowserCookies";
 import Axios from "axios";
-
 export default function Contacts({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
-
   useEffect(() => {
     const Chat_Funct = async () => {
       try {
         const UserToken = BrowserCookie();
         const token = UserToken.UserToken;
-        const response = await Axios.get("http://localhost:3001/my-profile", {
+        Axios.get("http://localhost:3001/my-profile", {
           headers: {
             authorization: `${token}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-        });
-        const data = response.data;
-        setCurrentUserName(data.Name);
-        setCurrentUserImage(data.Image.url);
+        })
+          .then((response) => {
+            // console.log(response);
+            let data = response.data;
+            setCurrentUserName(data.Name);
+            setCurrentUserImage(data.Image.url);
+
+            console.log(currentUserImage);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
     };
-
     Chat_Funct();
   }, []);
-
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
   };
-
   return (
     <>
-      {currentUserImage && (
+      {currentUserImage && currentUserImage && (
         <Container>
           <div className="brand">
             <img src={Logo} width="80" alt="logo" />
             <h3>Edu-Sync</h3>
           </div>
           <div className="contacts">
-            {contacts.map((contact, index) => (
-              <div
-                key={contact._id}
-                className={`contact ${
-                  index === currentSelected ? "selected" : ""
-                } d-flex`}
-                onClick={() => changeCurrentChat(index, contact)}
-              >
-                <div className="username d-flex align-items-center gap-2">
-                  <img
-                    src={contact.Image.url}
-                    style={{
-                      height: "40px",
-                      width: "40px",
-                      borderRadius: "50%",
-                    }}
-                    alt=""
-                  />
-                  <h3 style={{ fontSize: "18px" }}>{contact.Name}</h3>
+            {contacts.map((contact, index) => {
+              return (
+                <div
+                  key={contact._id}
+                  className={`contact ${
+                    index === currentSelected ? "selected" : ""
+                  } d-flex`}
+                  onClick={() => changeCurrentChat(index, contact)}
+                >
+                  <div className="username">
+                    <div className="username d-flex align-items-center gap-2">
+                      <img
+                        src={contact.Image.url}
+                        style={{
+                          height: "40px",
+                          width: "40px",
+                          borderRadius: "50%",
+                        }}
+                        alt=""
+                      />
+                      <h3 style={{ fontSize: "18px" }}>{contact.Name}</h3>
+                    </div>
+                    {contact.TeachingSubject ? (
+                      <h3 style={{ fontSize: "12px" }}>
+                        Teacher of {contact.TeachingSubject}
+                      </h3>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
-                {contact.TeachingSubject && (
-                  <h3 style={{ fontSize: "12px" }}>
-                    Teacher of {contact.TeachingSubject}
-                  </h3>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="current-user">
             <div className="username d-flex">
@@ -89,13 +98,11 @@ export default function Contacts({ contacts, changeChat }) {
     </>
   );
 }
-
 const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
   background-color: #080420;
-
   .brand {
     display: flex;
     align-items: center;
@@ -109,7 +116,6 @@ const Container = styled.div`
       text-transform: uppercase;
     }
   }
-
   .contacts {
     display: flex;
     flex-direction: column;
@@ -124,7 +130,6 @@ const Container = styled.div`
         border-radius: 1rem;
       }
     }
-
     .contact {
       background-color: #ffffff34;
       min-height: 5rem;
@@ -144,7 +149,6 @@ const Container = styled.div`
         }
       }
     }
-
     .selected {
       background-color: #9a86f3;
     }
@@ -163,7 +167,6 @@ const Container = styled.div`
         font-size: 18px;
       }
     }
-
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       gap: 0.5rem;
       .username {

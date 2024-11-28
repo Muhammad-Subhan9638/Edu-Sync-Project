@@ -17,30 +17,37 @@ export default function Chat() {
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const { UserToken } = BrowserCookie();
-      if (!UserToken) {
-        navigate("/login");
-        return;
-      }
+    const First_Funct = async () => {
+      const UserToken = BrowserCookie();
+      const token = UserToken.UserToken;
 
-      try {
-        const response = await Axios.get("http://localhost:3001/my-profile", {
-          headers: {
-            authorization: `Bearer ${UserToken}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-        const data = response.data;
-        setCurrentUser(data);
-      } catch (err) {
-        console.log(err);
+      if (!token) {
+        navigate("/login");
+      } else {
+        try {
+          const UserToken = BrowserCookie();
+          const token = UserToken.UserToken;
+          Axios.get("http://localhost:3001/my-profile", {
+            headers: {
+              authorization: `${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => {
+              let Data = response.data;
+              setCurrentUser(Data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } catch (err) {
+          console.log(err);
+        }
       }
     };
-    fetchUserData();
-  }, [navigate]);
-
+    First_Funct();
+  }, []);
   useEffect(() => {
     if (currentUser) {
       socket.current = io(host);
@@ -49,66 +56,60 @@ export default function Chat() {
   }, [currentUser]);
 
   useEffect(() => {
-    const fetchContacts = async () => {
-      const { UserToken } = BrowserCookie();
-      if (!UserToken) return;
-
+    const addUser = async () => {
       try {
-        const response = await Axios.get("http://localhost:3001/my-profile", {
+        const UserToken = BrowserCookie();
+        const token = UserToken.UserToken;
+        Axios.get("http://localhost:3001/my-profile", {
           headers: {
-            authorization: `Bearer ${UserToken}`,
+            authorization: `${token}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-        });
-
-        const data = response.data;
-        if (data.OnlineTeachingExperience) {
-          getStudentsList();
-        } else if (data.StudentClass) {
-          getTeachersList();
-        }
+        })
+          .then((response) => {
+            let Data = response.data;
+            if (Data.OnlineTeachingExperience) {
+              getStudentsList();
+            } else if (Data.StudentClass) {
+              getTeachersList();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } catch (err) {
         console.log(err);
       }
     };
 
     const getTeachersList = async () => {
-      try {
-        const data = await Axios.get(`${allTeacherRoute}`);
-        setContacts(data.data);
-      } catch (err) {
-        console.log(err);
-      }
+      const data = await Axios.get(`${allTeacherRoute}`);
+      setContacts(data.data);
     };
-
     const getStudentsList = async () => {
-      try {
-        const data = await Axios.get(`${allStudentRoute}`);
-        setContacts(data.data);
-      } catch (err) {
-        console.log(err);
-      }
+      const data = await Axios.get(`${allStudentRoute}`);
+      setContacts(data.data);
     };
 
-    fetchContacts();
+    addUser();
   }, [currentUser]);
-
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
-
   return (
-    <Container>
-      <div className="container">
-        <Contacts contacts={contacts} changeChat={handleChatChange} />
-        {currentChat === undefined ? (
-          <Welcome />
-        ) : (
-          <ChatContainer currentChat={currentChat} socket={socket} />
-        )}
-      </div>
-    </Container>
+    <>
+      <Container>
+        <div className="container">
+          <Contacts contacts={contacts} changeChat={handleChatChange} />
+          {currentChat === undefined ? (
+            <Welcome />
+          ) : (
+            <ChatContainer currentChat={currentChat} socket={socket} />
+          )}
+        </div>
+      </Container>
+    </>
   );
 }
 
